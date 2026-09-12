@@ -1,0 +1,197 @@
+/* ask-ai-badge — monochrome, themeable, zero-dependency styles.
+   Customize everything via CSS variables or className/style props.
+   Import with: import "ask-ai-badge/style.css"; */
+
+.aab {
+  --aab-bg: transparent;
+  --aab-fg: inherit;
+  /* Fallbacks for browsers without color-mix() */
+  --aab-muted: #71717a;
+  --aab-border: #e4e4e7;
+  --aab-hover-bg: #f4f4f5;
+  --aab-hover-border: #d4d4d8;
+  --aab-muted: color-mix(in srgb, currentColor 62%, transparent);
+  --aab-border: color-mix(in srgb, currentColor 16%, transparent);
+  --aab-hover-bg: color-mix(in srgb, currentColor 8%, transparent);
+  --aab-hover-border: color-mix(in srgb, currentColor 32%, transparent);
+  --aab-radius: 14px;
+  --aab-gap: 0.5rem;
+  --aab-title-size: 0.95rem;
+  --aab-label-size: 0.72rem;
+  --aab-icon-box: 44px;
+
+  background: var(--aab-bg);
+  color: var(--aab-fg);
+  border-radius: var(--aab-radius);
+  padding: 1rem 1.25rem;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  font-family: inherit;
+  line-height: 1.4;
+  overflow-wrap: break-word;
+  /* Adapt to narrow footer columns, not just viewports */
+  container-type: inline-size;
+  container-name: ask-ai-badge;
+}
+.aab *,
+.aab *::before,
+.aab *::after { box-sizing: inherit; }
+
+.aab--align-left { text-align: left; }
+.aab--align-start { text-align: start; }
+.aab--align-center { text-align: center; }
+.aab--align-end { text-align: end; }
+.aab--align-right { text-align: right; }
+
+/* Title/subtitle alignment (defaults to the badge align) */
+.aab__header--left { text-align: left; }
+.aab__header--start { text-align: start; }
+.aab__header--center { text-align: center; }
+.aab__header--end { text-align: end; }
+.aab__header--right { text-align: right; }
+
+/* ---- theme ---- */
+.aab--auto { color-scheme: light dark; }
+@media (prefers-color-scheme: dark) {
+  .aab--auto {
+    --aab-border: color-mix(in srgb, currentColor 22%, transparent);
+    --aab-hover-bg: color-mix(in srgb, currentColor 12%, transparent);
+  }
+}
+.aab--dark { color-scheme: dark; }
+.aab--light { color-scheme: light; }
+
+/* ---- header ---- */
+.aab__header { margin-bottom: 0.75rem; }
+.aab__title {
+  margin: 0;
+  font-size: var(--aab-title-size);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  overflow-wrap: anywhere;
+  text-wrap: balance;
+}
+.aab__spark { opacity: 0.7; }
+.aab__subtitle {
+  margin: 0.25rem 0 0;
+  font-size: 0.8rem;
+  color: var(--aab-muted);
+}
+
+/* ---- layout ---- */
+.aab__nav { width: 100%; min-width: 0; }
+.aab__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: var(--aab-gap);
+  flex-wrap: wrap;
+  min-width: 0;
+}
+.aab--align-center .aab__list { justify-content: center; }
+.aab--align-left .aab__list { justify-content: flex-start; }
+.aab--align-start .aab__list { justify-content: start; }
+.aab--align-right .aab__list { justify-content: flex-end; }
+.aab--align-end .aab__list { justify-content: end; }
+
+.aab--row .aab__list {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+.aab--grid .aab__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(76px, 100%), 1fr));
+}
+.aab--compact { padding: 0.5rem 0; }
+.aab--compact .aab__header { margin-bottom: 0.4rem; }
+
+/* ---- buttons: monochrome, borderless by default (opt-in via .aab--bordered) ---- */
+.aab__item { margin: 0; padding: 0; min-width: 0; }
+.aab__link {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  min-width: var(--aab-icon-box);
+  max-width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  color: inherit;
+  text-decoration: none;
+  background: transparent;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+.aab--bordered .aab__link { border-color: var(--aab-border); }
+.aab__link:hover {
+  background: var(--aab-hover-bg);
+  transform: translateY(-1px);
+}
+.aab--bordered .aab__link:hover { border-color: var(--aab-hover-border); }
+.aab__link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+.aab__icon {
+  display: inline-flex;
+  line-height: 0;
+  opacity: 0.92;
+}
+.aab__icon svg { display: block; }
+.aab__label {
+  font-size: var(--aab-label-size);
+  color: var(--aab-muted);
+  font-weight: 500;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.aab__link:hover .aab__label { color: inherit; }
+
+/* sizes */
+.aab--sm { --aab-icon-box: 38px; --aab-title-size: 0.85rem; --aab-label-size: 0.66rem; }
+.aab--md { --aab-icon-box: 44px; }
+.aab--lg { --aab-icon-box: 56px; --aab-title-size: 1.05rem; --aab-label-size: 0.78rem; }
+
+/* disclaimer + copy-handoff hint */
+.aab__disclaimer,
+.aab__hint {
+  margin: 0.6rem 0 0;
+  font-size: 0.7rem;
+  color: var(--aab-muted);
+}
+.aab__hint { font-weight: 600; }
+
+/* Respect users who prefer no animation (also avoids needless repaints) */
+@media (prefers-reduced-motion: reduce) {
+  .aab__link { transition: none; }
+  .aab__link:hover { transform: none; }
+}
+
+/* ---- responsive: tighten up in narrow containers (footer columns, sidebars) ---- */
+@container ask-ai-badge (max-width: 320px) {
+  .aab {
+    padding: 0.75rem 0.5rem;
+    --aab-gap: 0.35rem;
+    --aab-icon-box: 40px;
+  }
+  .aab__link { padding: 0.45rem 0.5rem; }
+}
+
+/* Fallback for browsers without container queries */
+@supports not (container-type: inline-size) {
+  @media (max-width: 380px) {
+    .aab {
+      padding: 0.75rem 0.5rem;
+      --aab-gap: 0.35rem;
+      --aab-icon-box: 40px;
+    }
+    .aab__link { padding: 0.45rem 0.5rem; }
+  }
+}

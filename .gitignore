@@ -1,0 +1,6 @@
+dist/
+playground-dist/
+playground-server.log
+node_modules/
+*.local
+.DS_Store

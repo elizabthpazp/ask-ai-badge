@@ -1,0 +1,75 @@
+{
+  "name": "ask-ai-badge",
+  "version": "1.0.0",
+  "description": "Drop-in \"Ask AI about [your product]\" badge with monochrome ChatGPT, Claude, Gemini, Google, Perplexity & Grok links. Fully customizable, zero-dependency (React peer only).",
+  "keywords": [
+    "react",
+    "react-component",
+    "nextjs",
+    "ask-ai",
+    "ask-ai-about",
+    "ai-badge",
+    "ai-button",
+    "ai-search",
+    "ai-discovery",
+    "llm",
+    "chatgpt",
+    "claude",
+    "gemini",
+    "google-ai-mode",
+    "perplexity",
+    "grok",
+    "footer",
+    "footer-badge",
+    "typescript",
+    "i18n"
+  ],
+  "license": "MIT",
+  "author": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "type": "module",
+  "main": "./dist/ask-ai-badge.cjs",
+  "module": "./dist/ask-ai-badge.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/ask-ai-badge.js",
+      "require": "./dist/ask-ai-badge.cjs"
+    },
+    "./style.css": "./dist/ask-ai-badge.css"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.6.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "typescript": "^5.8.3",
+    "vite": "^7.1.7",
+    "vite-plugin-dts": "^4.5.3"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "playground": "vite serve --config vite.playground.config.ts --port 5199 --open",
+    "playground:build": "vite build --config vite.playground.config.ts",
+    "prepublishOnly": "npm run build"
+  }
+}

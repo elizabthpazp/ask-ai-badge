@@ -29,6 +29,10 @@ People no longer just search on Google — **they ask AIs**. If your product isn
 
 ## Live demo
 
+**Try it live:** https://ask-ai-badge.elijs.dev
+
+Or run locally:
+
 ```bash
 git clone <your-repo>
 npm install

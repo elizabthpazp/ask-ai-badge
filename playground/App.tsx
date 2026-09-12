@@ -312,6 +312,12 @@ export function App() {
           <a href="#try">{t.navTry}</a>
           <a href="#footer-demo">{t.navFooter}</a>
           <a href="#setup">{t.navSetup}</a>
+          <a href="https://www.npmjs.com/package/ask-ai-badge" target="_blank" rel="noreferrer" className="p2-npm-nav">
+            <svg height="16" viewBox="0 0 24 24" width="16" fill="currentColor" aria-hidden="true">
+              <path d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0H1.763zM12 22.237H1.763V1.763H12v20.474zm10.237 0H12V1.763h10.237v20.474z"/>
+            </svg>
+            npm
+          </a>
           <div className="p2-seg" role="group" aria-label="Language">
             {(["en", "es"] as Lang[]).map((l) => (
               <button key={l} className={lang === l ? "on" : ""} onClick={() => setLang(l)}>
@@ -527,7 +533,17 @@ export function App() {
         </div>
       </section>
 
-      <footer className="p2-mini">✦ ask-ai-badge — {t.madeWith}</footer>
+      <footer className="p2-mini">
+        <div className="p2-mini-links">
+          <a href="https://www.npmjs.com/package/ask-ai-badge" target="_blank" rel="noreferrer" className="p2-npm-link">
+            <svg height="20" viewBox="0 0 24 24" width="20" fill="currentColor" aria-hidden="true">
+              <path d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0H1.763zM12 22.237H1.763V1.763H12v20.474zm10.237 0H12V1.763h10.237v20.474z"/>
+            </svg>
+            npm
+          </a>
+          <span>✦ ask-ai-badge — {t.madeWith}</span>
+        </div>
+      </footer>
     </div>
   );
 }

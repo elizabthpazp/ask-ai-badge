@@ -47,6 +47,19 @@
 .p2-nav-right { display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap; }
 .p2-nav-right a { color: var(--muted); text-decoration: none; font-size: 0.85rem; font-weight: 600; }
 .p2-nav-right a:hover { color: var(--fg); }
+.p2-npm-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+.p2-npm-nav:hover {
+  border-color: var(--accent);
+  background: var(--card);
+}
 .p2-seg {
   display: inline-flex;
   border: 1px solid var(--border);
@@ -317,6 +330,24 @@
 .p2-muted { color: var(--muted); font-size: 0.85rem; }
 
 .p2-mini { text-align: center; padding: 2rem 1rem 2.5rem; color: var(--muted); font-size: 0.8rem; }
+.p2-mini-links { display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+.p2-npm-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.3rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+.p2-npm-link:hover {
+  color: var(--fg);
+  border-color: var(--accent);
+  background: var(--card);
+}
 
 /* RESPONSIVE */
 @media (max-width: 960px) {

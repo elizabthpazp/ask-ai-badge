@@ -12,8 +12,8 @@
 </p>
 
 <p align="center">
-  <strong>"Ask AI about your product" button for React.</strong><br />
-  Drop it anywhere on your site (footer, pricing, docs, blog) and get deep links to <strong>ChatGPT, Claude, Gemini, Perplexity, and Grok</strong> — each one opens the AI with a question about your product already written. Official monochrome icons, 100% customizable, multi-language, and ultra light.
+  <strong>"Ask AI about your product" button for React & Any Framework.</strong><br />
+  Drop it anywhere on your site (footer, pricing, docs, blog) and get deep links to <strong>ChatGPT, Claude, Gemini, Perplexity, and Grok</strong>. Works as a native React component or a <strong>Universal Web Component</strong> (Nuxt, Vue, Angular, Svelte, HTML). Official monochrome icons, 100% customizable, multi-language, and ultra light.
 </p>
 
 <p align="center">
@@ -56,6 +56,8 @@ The playground lets you edit copy, prompt, providers, language, sizes, and align
 
 ## 30-second usage
 
+### In React / Next.js
+
 ```bash
 npm i ask-ai-badge
 ```
@@ -79,6 +81,82 @@ With your own data:
   locale="es"
 />
 ```
+
+---
+
+### In Nuxt 3 / Vue / Svelte / Angular / Astro / Vanilla HTML (Universal Web Component)
+
+Zero React dependencies needed! Works in **any** framework as a standard Custom Element `<ask-ai-badge>`:
+
+#### 1. Nuxt 3 / Vue 3
+
+```bash
+npm i ask-ai-badge
+```
+
+In `nuxt.config.ts` (allow custom element tag):
+```ts
+export default defineNuxtConfig({
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag) => tag === 'ask-ai-badge'
+    }
+  }
+})
+```
+
+In any Vue component / footer:
+```vue
+<script setup>
+import 'ask-ai-badge/element';
+</script>
+
+<template>
+  <ask-ai-badge
+    product-name="MyProduct"
+    product-url="https://myproduct.com"
+    locale="es"
+    theme="auto"
+    layout="wrap"
+    show-labels
+  ></ask-ai-badge>
+</template>
+```
+
+#### 2. HTML / CDN (no build step)
+
+```html
+<!-- Load the element from unpkg or jsdelivr -->
+<script type="module" src="https://unpkg.com/ask-ai-badge/dist/element.js"></script>
+
+<!-- Use anywhere in your HTML: -->
+<ask-ai-badge
+  product-name="MyProduct"
+  product-url="https://myproduct.com"
+  locale="es"
+></ask-ai-badge>
+```
+
+#### 3. Angular
+
+In your module or standalone component:
+```ts
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import 'ask-ai-badge/element';
+
+@Component({
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  template: `
+    <ask-ai-badge
+      product-name="MyProduct"
+      product-url="https://myproduct.com"
+      locale="es">
+    </ask-ai-badge>
+  `
+})
+```
+
+---
 
 ## Where to put it (and how it helps your business)
 
@@ -231,39 +309,47 @@ Plain ~4 KB CSS (`--aab-*` variables, `aab--*` classes). No Tailwind, no CSS-in-
 - **Real tree-shaking**: importing a single icon weighs ~3 KB.
 - Zero network requests (inline SVG, no fonts or CDNs), no CLS, memoized renders, and `prefers-reduced-motion` respected.
 
-## API
-
-| Prop | Type | Default |
-|---|---|---|
-| `productName` | `string` | `"[Product]"` |
-| `productUrl` | `string` | `"https://example.com"` |
-| `description` | `string` (`{productName}`, `{productUrl}`) | structured brief |
-| `prompt` | `string` (highest priority) | — |
-| `promptTemplate` | `string` | brief per `locale` |
-| `title` / `subtitle` | `string` | per `locale` / — |
-| `showTitleIcon` / `titleIcon` | `boolean` / `ReactNode` | `false` / `"✦"` |
-| `locale` | `"en"\|"es"\|"fr"\|"de"\|"pt"\|"it"` | `"en"` |
-| `messages` | `title, subtitle, disclaimer, promptTemplate, summarizeTemplate, askTemplate, copiedHint` | — |
-| `providers` | `(id \| AskAiProvider)[]` — each: `label, href, baseUrl, queryParam, buildUrl, prefill, icon, iconSize, hidden, ariaLabel` | 5 by default |
-| `labels` / `baseUrls` | per-id overrides | — |
-| `theme` / `layout` / `size` | `"auto"\|"light"\|"dark"` / `"row"\|"wrap"\|"grid"\|"compact"` / `"sm"\|"md"\|"lg"` | `"auto"` / `"wrap"` / `"md"` |
-| `titleSize` / `labelSize` / `iconSize` | `number` (px) or CSS / global px and per provider | `size` preset |
-| `align` / `titleAlign` | `"start"\|"center"\|"end"` (+`"left"`/`"right"`) | `"center"` / = `align` |
-| `showLabels` `showBorder` `newTab` `iconsOnly` `showDisclaimer` | `boolean` | `false,false,true,false,false` |
-| `disclaimerText` / `rel` | `string` | per `locale` / `"noopener noreferrer nofollow"` |
-| `className` / `style` / `onProviderClick` | — | — |
-
-Helpers: `buildProviderUrl`, `copyTextToClipboard`, `resolveProviders`, `resolvePrompt`, `getMessages`, `LOCALE_MESSAGES`, `BUILT_IN_BASE_URLS`, icons (`ChatGptIcon`, `ClaudeIcon`, `GeminiIcon`, `GoogleIcon`, `PerplexityIcon`, `GrokIcon`).
+## API & Attributes
+ 
+| Prop (React) | Attribute (Web Component) | Type | Default |
+|---|---|---|---|
+| `productName` | `product-name` | `string` | `"[Product]"` |
+| `productUrl` | `product-url` | `string` | `"https://example.com"` |
+| `description` | `description` | `string` | structured brief |
+| `prompt` | `prompt` | `string` | — |
+| `promptTemplate` | `prompt-template` | `string` | brief per `locale` |
+| `title` / `subtitle` | `title` / `subtitle` | `string` | per `locale` / — |
+| `showTitleIcon` | `show-title-icon` | `boolean` | `false` |
+| `locale` | `locale` | `"en"\|"es"\|"fr"\|"de"\|"pt"\|"it"` | `"en"` |
+| `providers` | `providers` | Array / JSON string | 5 by default |
+| `theme` | `theme` | `"auto"\|"light"\|"dark"` | `"auto"` |
+| `layout` | `layout` | `"row"\|"wrap"\|"grid"\|"compact"` | `"wrap"` |
+| `size` | `size` | `"sm"\|"md"\|"lg"` | `"md"` |
+| `fontSize` | `font-size` | `number` / `string` | — |
+| `titleSize` | `title-size` | `number` / `string` | — |
+| `labelSize` | `label-size` | `number` / `string` | — |
+| `iconSize` | `icon-size` | `number` (px) | preset |
+| `align` | `align` | `"start"\|"center"\|"end"` | `"center"` |
+| `titleAlign` | `title-align` | `"start"\|"center"\|"end"` | = `align` |
+| `showLabels` | `show-labels` | `boolean` | `false` |
+| `showBorder` | `show-border` | `boolean` | `false` |
+| `newTab` | `new-tab` | `boolean` | `true` |
+| `iconsOnly` | `icons-only` | `boolean` | `false` |
+| `showDisclaimer` | `show-disclaimer` | `boolean` | `false` |
+| `disclaimerText` | `disclaimer-text` | `string` | per `locale` |
+| `rel` | `rel` | `string` | `"noopener noreferrer nofollow"` |
 
 ## FAQ
 
-**Does it work with Next.js / SSR?** Yes — it never touches `window`/`document` while rendering; the clipboard is only used on click.
+**Does it work with Nuxt 3, Vue, Svelte, Angular or plain HTML?** Yes! Import `'ask-ai-badge/element'` and use `<ask-ai-badge></ask-ai-badge>`. It is an official Web Component (Custom Element) with Shadow DOM and zero framework dependencies.
+
+**Does it work with Next.js / React SSR?** Yes — it never touches `window`/`document` while rendering; the clipboard is only used on click.
 
 **Why does Gemini open Google instead of gemini.google.com?** Because the Gemini app ignores `?q=`. AI Mode answers with Gemini in one click; if you prefer the app, use `prefill: "copy"` with its URL.
 
 **Why does Claude show a red notice?** It's Anthropic's policy against link-prefilled prompts; the text still arrives, plus there's a clipboard backup.
 
-**Can I remove AIs or add my own?** Yes: `providers` accepts ids, reordering, `hidden`, and fully custom objects (`href`/`buildUrl`/`icon`).
+**Can I remove AIs or add my own?** Yes: `providers` accepts ids, reordering, `hidden`, and fully custom objects (`href`/`buildUrl`/`icon`). In the Web Component, pass JSON string: `providers='["chatgpt","claude"]'`.
 
 **What about trademarks?** Icons are official artwork (Simple Icons CC0, except xAI's current Grok mark) rendered in monochrome. Brands belong to their owners — follow their guidelines.
 

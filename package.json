@@ -44,7 +44,12 @@
       "import": "./dist/ask-ai-badge.js",
       "require": "./dist/ask-ai-badge.cjs"
     },
-    "./style.css": "./dist/ask-ai-badge.css"
+    "./style.css": "./dist/ask-ai-badge.css",
+    "./element": {
+      "types": "./dist/element.d.ts",
+      "import": "./dist/element.js",
+      "require": "./dist/element.cjs"
+    }
   },
   "files": [
     "dist",
@@ -53,11 +58,21 @@
     "assets"
   ],
   "sideEffects": [
-    "*.css"
+    "*.css",
+    "./dist/element.js",
+    "./dist/element.cjs"
   ],
   "peerDependencies": {
     "react": ">=18",
     "react-dom": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@types/react": "^19.1.8",

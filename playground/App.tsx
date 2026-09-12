@@ -18,7 +18,7 @@ import type {
 
 type Lang = "en" | "es";
 type CtrlTab = "product" | "style" | "providers";
-type OutputTab = "code" | "links";
+type OutputTab = "code" | "wc" | "links";
 type PkgManager = "npm" | "pnpm" | "bun" | "yarn";
 
 const PKG_CONFIG: Record<
@@ -90,7 +90,7 @@ const STR = {
     navTry: "Try it",
     navFooter: "Footer",
     navSetup: "Setup",
-    heroEyebrow: "React · Zero dependencies · 6 languages",
+    heroEyebrow: "Universal · React, Vue, Nuxt, Angular, HTML · Zero dependencies",
     heroTitleA: "Let visitors ",
     heroTitleB: "ask AI about your product.",
     heroSub: "One badge for your footer. It opens ChatGPT, Claude, Gemini, Perplexity and Grok with a question about you — already written.",
@@ -175,14 +175,16 @@ const STR = {
     copyBtn: "Copy",
     tick: "✓",
     madeWith: "MIT · Zero dependencies · Tree-shakeable",
-    outputCode: "Code",
+    outputCode: "React",
+    outputWc: "Web Component (Universal)",
     outputLinks: "Links",
+    wcTitle: "HTML / Universal Web Component (Nuxt, Vue, Angular, Svelte, HTML)",
   },
   es: {
     navTry: "Pruébalo",
     navFooter: "Footer",
     navSetup: "Instalar",
-    heroEyebrow: "React · Cero dependencias · 6 idiomas",
+    heroEyebrow: "Universal · React, Vue, Nuxt, Angular, HTML · Cero dependencias",
     heroTitleA: "Deja que pregunten ",
     heroTitleB: "a la IA sobre tu producto.",
     heroSub: "Un badge para tu footer. Abre ChatGPT, Claude, Gemini, Perplexity y Grok con una pregunta sobre ti — ya escrita.",
@@ -257,7 +259,7 @@ const STR = {
     s2d: "Componente + estilos.",
     s3t: "Suéltalo",
     s3d: "Footer, pricing, docs — donde sea.",
-    codeTitle: "Tu código, generado en vivo",
+    codeTitle: "Tu código React, generado en vivo",
     linksTitle: "Enlaces generados",
     noProviders: "Activa al menos un asistente.",
     tryBtn: "Probar →",
@@ -266,9 +268,11 @@ const STR = {
     bothNote: "· abre con la pregunta (+ copia de respaldo)",
     copyBtn: "Copiar",
     tick: "✓",
-    madeWith: "MIT · Cero dependencias · Tree-shakeable",
-    outputCode: "Código",
+    madeWith: "MIT · Cero dependencias · Universal",
+    outputCode: "React",
+    outputWc: "Web Component (Universal)",
     outputLinks: "Enlaces",
+    wcTitle: "HTML / Web Component Universal (Nuxt, Vue, Angular, Svelte, HTML)",
   },
 } satisfies Record<Lang, Record<string, string>>;
 
@@ -434,7 +438,47 @@ export function App() {
     ]
       .filter((l): l is string => l !== null)
       .join("\n");
-  }, [productName, productUrl, description, lang, providers, theme, layout, size, titleSize, labelSize, iconSize, align, titleAlign, showLabels, showBorder, showTitleIcon, newTab, iconsOnly, showDisclaimer, hasColors, colorStyle]);
+  }, [productName, productUrl, description, lang, providers, theme, layout, size, fontSize, titleSize, labelSize, iconSize, align, titleAlign, showLabels, labelPosition, showBorder, showTitleIcon, newTab, iconsOnly, showDisclaimer, hasColors, colorStyle]);
+
+  const wcCode = useMemo(() => {
+    const provList = providers.map((p) => p.id);
+    const hasCustomProvs = provList.length !== 5 || !["chatgpt", "claude", "gemini", "perplexity", "grok"].every((id, i) => provList[i] === id);
+
+    const attrs = [
+      `  product-name="${productName}"`,
+      productUrl.trim() ? `  product-url="${productUrl}"` : null,
+      description.trim() ? `  description="${description}"` : null,
+      lang !== "en" ? `  locale="${lang}"` : null,
+      hasCustomProvs ? `  providers='${JSON.stringify(provList)}'` : null,
+      theme !== "auto" ? `  theme="${theme}"` : null,
+      layout !== "wrap" ? `  layout="${layout}"` : null,
+      size !== "md" ? `  size="${size}"` : null,
+      fontSize.trim() ? `  font-size="${fontSize}"` : null,
+      titleSize.trim() ? `  title-size="${titleSize}"` : null,
+      labelSize.trim() ? `  label-size="${labelSize}"` : null,
+      iconSize.trim() ? `  icon-size="${iconSize}"` : null,
+      align !== "center" ? `  align="${align}"` : null,
+      titleAlign ? `  title-align="${titleAlign}"` : null,
+      showLabels ? `  show-labels` : null,
+      showLabels && labelPosition !== "bottom" ? `  label-position="${labelPosition}"` : null,
+      showBorder ? `  show-border` : null,
+      showTitleIcon ? `  show-title-icon` : null,
+      !newTab ? `  new-tab="false"` : null,
+      iconsOnly ? `  icons-only` : null,
+      showDisclaimer ? `  show-disclaimer` : null,
+    ].filter(Boolean);
+
+    return [
+      `<!-- 1. En Nuxt / Vue / Svelte / Angular / Astro / HTML: -->`,
+      `<script type="module" src="https://unpkg.com/ask-ai-badge/dist/element.js"></script>`,
+      `<!-- O instalando con npm: import "ask-ai-badge/element"; -->`,
+      ``,
+      `<!-- 2. Coloca la etiqueta nativa donde quieras: -->`,
+      `<ask-ai-badge`,
+      ...attrs,
+      `></ask-ai-badge>`,
+    ].join("\n");
+  }, [productName, productUrl, description, lang, providers, theme, layout, size, fontSize, titleSize, labelSize, iconSize, align, titleAlign, showLabels, labelPosition, showBorder, showTitleIcon, newTab, iconsOnly, showDisclaimer]);
 
   const flag = (label: string, value: boolean, set: (v: boolean) => void) => (
     <label className="p2-check" key={label}>
@@ -978,6 +1022,7 @@ export function App() {
           <div className="p2-card">
             <div className="p2-output-tabs">
               <button className={outputTab === "code" ? "on" : ""} onClick={() => setOutputTab("code")}>{t.outputCode}</button>
+              <button className={outputTab === "wc" ? "on" : ""} onClick={() => setOutputTab("wc")}>{t.outputWc}</button>
               <button className={outputTab === "links" ? "on" : ""} onClick={() => setOutputTab("links")}>{t.outputLinks}</button>
             </div>
 
@@ -990,6 +1035,18 @@ export function App() {
                   </button>
                 </div>
                 <pre className="p2-code">{code}</pre>
+              </>
+            )}
+
+            {outputTab === "wc" && (
+              <>
+                <div className="p2-card-head">
+                  <h3>{t.wcTitle}</h3>
+                  <button className="p2-btn p2-btn--sm" onClick={() => copy(wcCode, "wc")}>
+                    {copiedId === "wc" ? t.copied : t.copyBtn}
+                  </button>
+                </div>
+                <pre className="p2-code">{wcCode}</pre>
               </>
             )}
 

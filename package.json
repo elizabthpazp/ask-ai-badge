@@ -1,6 +1,6 @@
 {
   "name": "ask-ai-badge",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Drop-in \"Ask AI about [your product]\" badge with monochrome ChatGPT, Claude, Gemini, Google, Perplexity & Grok links. Fully customizable, zero-dependency (React peer only).",
   "keywords": [
     "react",

@@ -80,9 +80,9 @@ const ProviderLink = memo(function ProviderLink({
           }
         }}
         >
-          <span className="aab__icon">
-            {provider.icon ?? <Icon size={px} />}
-          </span>
+        <span className="aab__icon" style={{ width: px, height: px }}>
+          {provider.icon ?? <Icon size={px} />}
+        </span>
           {showLabels && <span className="aab__label">{provider.label}</span>}
         </a>
       </li>

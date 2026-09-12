@@ -167,8 +167,13 @@ export function AskAiBadge({
   // Transient "prompt copied" confirmation after a copy handoff.
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  const toCssSize = (v: number | string | undefined) =>
-    v === undefined ? undefined : typeof v === "number" ? `${v}px` : v;
+  const toCssSize = (v: number | string | undefined) => {
+    if (v === undefined || v === null) return undefined;
+    if (typeof v === "number") return isNaN(v) ? undefined : `${v}px`;
+    const str = String(v).trim();
+    if (!str) return undefined;
+    return /^\d+(\.\d+)?$/.test(str) ? `${str}px` : str;
+  };
 
   // Explicit sizes win over the `size` preset; `style` still wins over all.
   const rootStyle = useMemo(() => {
@@ -178,7 +183,9 @@ export function AskAiBadge({
     const l = toCssSize(labelSize) ?? (f ? `calc(${f} * 0.8)` : undefined);
     if (t) vars["--aab-title-size"] = t;
     if (l) vars["--aab-label-size"] = l;
+    if (f) vars["--aab-font-size"] = f;
     vars["--aab-icon-size"] = `${px}px`;
+    vars["--aab-icon-box"] = `${Math.round(Math.max(px * 1.6, px + 18))}px`;
     return { ...vars, ...style } as CSSProperties;
   }, [fontSize, titleSize, labelSize, px, style]);
 
@@ -232,7 +239,7 @@ export function AskAiBadge({
               onProviderClick={onProviderClick}
               onCopied={(p) => {
                 setCopiedId(p.id);
-                window.setTimeout(() => {
+                setTimeout(() => {
                   setCopiedId((cur) => (cur === p.id ? null : cur));
                 }, 4000);
               }}

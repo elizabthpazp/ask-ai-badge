@@ -1,11 +1,12 @@
-/* ask-ai-badge — monochrome, themeable, zero-dependency styles.
-   Customize everything via CSS variables or className/style props.
-   Import with: import "ask-ai-badge/style.css"; */
+.aab,
+.aab__label,
+.aab__link {
+  max-width: 100%
+}
 
 .aab {
   --aab-bg: transparent;
   --aab-fg: inherit;
-  /* Fallbacks for browsers without color-mix() */
   --aab-muted: #71717a;
   --aab-border: #e4e4e7;
   --aab-hover-bg: #f4f4f5;
@@ -20,68 +21,119 @@
   --aab-label-size: 0.72rem;
   --aab-icon-size: 22px;
   --aab-icon-box: 44px;
-
+  --aab-link-pad-x: 0.65rem;
+  --aab-link-pad-y: 0.45rem;
   background: var(--aab-bg);
   color: var(--aab-fg);
   border-radius: var(--aab-radius);
   padding: 1rem 1.25rem;
-  max-width: 100%;
   min-width: 0;
   box-sizing: border-box;
   font-family: inherit;
   line-height: 1.4;
   overflow-wrap: break-word;
-  /* Adapt to narrow footer columns, not just viewports */
   container-type: inline-size;
-  container-name: ask-ai-badge;
+  container-name: ask-ai-badge
 }
+
 .aab *,
-.aab *::before,
-.aab *::after { box-sizing: inherit; }
+.aab ::after,
+.aab ::before {
+  box-sizing: inherit
+}
 
-.aab--align-left { text-align: left; }
-.aab--align-start { text-align: start; }
-.aab--align-center { text-align: center; }
-.aab--align-end { text-align: end; }
-.aab--align-right { text-align: right; }
+.aab--align-left {
+  text-align: left
+}
 
-/* Title/subtitle alignment (defaults to the badge align) */
-.aab__header--left { text-align: left; }
-.aab__header--start { text-align: start; }
-.aab__header--center { text-align: center; }
-.aab__header--end { text-align: end; }
-.aab__header--right { text-align: right; }
+.aab--align-start {
+  text-align: start
+}
 
-/* ---- theme ---- */
-.aab--auto { color-scheme: light dark; }
-@media (prefers-color-scheme: dark) {
+.aab--align-center {
+  text-align: center
+}
+
+.aab--align-end {
+  text-align: end
+}
+
+.aab--align-right {
+  text-align: right
+}
+
+.aab__header--left {
+  text-align: left
+}
+
+.aab__header--start {
+  text-align: start
+}
+
+.aab__header--center {
+  text-align: center
+}
+
+.aab__header--end {
+  text-align: end
+}
+
+.aab__header--right {
+  text-align: right
+}
+
+.aab--auto {
+  color-scheme: light dark
+}
+
+@media (prefers-color-scheme:dark) {
   .aab--auto {
     --aab-border: color-mix(in srgb, currentColor 22%, transparent);
-    --aab-hover-bg: color-mix(in srgb, currentColor 12%, transparent);
+    --aab-hover-bg: color-mix(in srgb, currentColor 12%, transparent)
   }
 }
-.aab--dark { color-scheme: dark; }
-.aab--light { color-scheme: light; }
 
-/* ---- header ---- */
-.aab__header { margin-bottom: 0.75rem; }
+.aab--dark {
+  color-scheme: dark
+}
+
+.aab--light {
+  color-scheme: light
+}
+
+.aab__header {
+  margin-bottom: .75rem
+}
+
 .aab__title {
   margin: 0;
   font-size: var(--aab-title-size);
   font-weight: 600;
-  letter-spacing: 0.01em;
+  letter-spacing: .01em;
   overflow-wrap: anywhere;
-  text-wrap: balance;
-}
-.aab__spark { opacity: 0.7; }
-.aab__subtitle {
-  margin: 0.25rem 0 0;
-  font-size: 0.8rem;
-  color: var(--aab-muted);
+  text-wrap: balance
 }
 
-/* ---- layout ---- */
-.aab__nav { width: 100%; min-width: 0; }
+.aab__spark {
+  opacity: .7
+}
+
+.aab__subtitle {
+  margin: .25rem 0 0;
+  font-size: .8rem;
+  color: var(--aab-muted)
+}
+
+.aab__link,
+.aab__link:hover .aab__label {
+  color: inherit
+}
+
+.aab__nav {
+  width: 100%;
+  min-width: 0
+}
+
 .aab__list {
   list-style: none;
   margin: 0;
@@ -89,171 +141,237 @@
   display: flex;
   gap: var(--aab-gap);
   flex-wrap: wrap;
-  min-width: 0;
-}
-.aab--align-center .aab__list { justify-content: center; }
-.aab--align-left .aab__list { justify-content: flex-start; }
-.aab--align-start .aab__list { justify-content: start; }
-.aab--align-right .aab__list { justify-content: flex-end; }
-.aab--align-end .aab__list { justify-content: end; }
-
-/* Optical alignment: pull the icon list so that the first icon glyph aligns flush
-   with the title text when start/left-aligned, and flush on the right when end/right-aligned */
-.aab--align-start:not(.aab--bordered) .aab__list,
-.aab--align-left:not(.aab--bordered) .aab__list {
-  margin-left: calc(-1 * (var(--aab-icon-box) - var(--aab-icon-size, 22px)) / 2);
+  min-width: 0
 }
 
-.aab--align-end:not(.aab--bordered) .aab__list,
-.aab--align-right:not(.aab--bordered) .aab__list {
-  margin-right: calc(-1 * (var(--aab-icon-box) - var(--aab-icon-size, 22px)) / 2);
+.aab--align-center .aab__list {
+  justify-content: center
+}
+
+.aab--align-left .aab__list {
+  justify-content: flex-start
+}
+
+.aab--align-start .aab__list {
+  justify-content: start
+}
+
+.aab--align-right .aab__list {
+  justify-content: flex-end
+}
+
+.aab--align-end .aab__list {
+  justify-content: end
+}
+
+.aab--align-left:not(.aab--bordered) .aab__item:first-child .aab__link,
+.aab--align-start:not(.aab--bordered) .aab__item:first-child .aab__link {
+  padding-left: 0;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px
+}
+
+.aab--align-end:not(.aab--bordered) .aab__item:last-child .aab__link,
+.aab--align-right:not(.aab--bordered) .aab__item:last-child .aab__link {
+  padding-right: 0;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px
 }
 
 .aab--row .aab__list {
   flex-wrap: nowrap;
   overflow-x: auto;
   scrollbar-width: thin;
-  -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch
 }
-/* Never squeeze pills in a scroll row — scroll instead of truncating */
-.aab--row .aab__item { flex: 0 0 auto; }
-/* Safe alignment in scroll rows: plain center/end would push the start
-   out of reach when content overflows. `safe` keeps it reachable. */
+
+.aab--row .aab__item {
+  flex: 0 0 auto
+}
+
 .aab--row.aab--align-left .aab__list,
-.aab--row.aab--align-start .aab__list { justify-content: start; }
-.aab--row.aab--align-left:not(.aab--bordered) .aab__list,
-.aab--row.aab--align-start:not(.aab--bordered) .aab__list {
-  margin-left: calc(-1 * (var(--aab-icon-box) - var(--aab-icon-size, 22px)) / 2);
+.aab--row.aab--align-start .aab__list {
+  justify-content: start
 }
-.aab--row.aab--align-center .aab__list { justify-content: safe center; }
-.aab--row.aab--align-right .aab__list,
-.aab--row.aab--align-end .aab__list { justify-content: safe end; }
-.aab--row.aab--align-right:not(.aab--bordered) .aab__list,
-.aab--row.aab--align-end:not(.aab--bordered) .aab__list {
-  margin-right: calc(-1 * (var(--aab-icon-box) - var(--aab-icon-size, 22px)) / 2);
+
+.aab--row.aab--align-center .aab__list {
+  justify-content: safe center
 }
+
+.aab--row.aab--align-end .aab__list,
+.aab--row.aab--align-right .aab__list {
+  justify-content: safe end
+}
+
+.aab--row.aab--align-left:not(.aab--bordered) .aab__item:first-child .aab__link,
+.aab--row.aab--align-start:not(.aab--bordered) .aab__item:first-child .aab__link {
+  padding-left: 0
+}
+
+.aab--row.aab--align-end:not(.aab--bordered) .aab__item:last-child .aab__link,
+.aab--row.aab--align-right:not(.aab--bordered) .aab__item:last-child .aab__link {
+  padding-right: 0
+}
+
 .aab--grid .aab__list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(76px, 100%), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(76px, 100%), 1fr))
 }
-.aab--compact { padding: 0.5rem 0; }
-.aab--compact .aab__header { margin-bottom: 0.4rem; }
 
-/* ---- buttons: monochrome, borderless by default (opt-in via .aab--bordered) ---- */
-.aab__item { margin: 0; padding: 0; min-width: 0; }
+.aab--compact {
+  padding: .5rem 0
+}
+
+.aab--compact .aab__header {
+  margin-bottom: .4rem
+}
+
+.aab__item {
+  margin: 0;
+  padding: 0;
+  min-width: 0
+}
+
 .aab__link {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.3rem;
-  min-width: var(--aab-icon-box);
-  max-width: 100%;
-  padding: 0.55rem 0.7rem;
+  gap: .35rem;
+  box-sizing: border-box;
+  min-width: auto;
+  padding: var(--aab-link-pad-y) var(--aab-link-pad-x);
   border: 1px solid transparent;
   border-radius: 12px;
-  color: inherit;
   text-decoration: none;
-  background: transparent;
-  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+  background: 0 0;
+  transition: background .15s, border-color .15s, transform .15s
 }
-.aab--bordered .aab__link { border-color: var(--aab-border); }
+
+.aab--bordered .aab__link {
+  border-color: var(--aab-border)
+}
+
 .aab__link:hover {
   background: var(--aab-hover-bg);
-  transform: translateY(-1px);
+  transform: translateY(-1px)
 }
-.aab--bordered .aab__link:hover { border-color: var(--aab-hover-border); }
 
-/* ---- label placement: side / horizontal (beside icon) ---- */
-.aab--label-side .aab__link,
-.aab--label-right .aab__link {
+.aab--bordered .aab__link:hover {
+  border-color: var(--aab-hover-border)
+}
+
+.aab--label-right .aab__link,
+.aab--label-side .aab__link {
   flex-direction: row;
   align-items: center;
-  gap: 0.45rem;
+  gap: .45rem;
   min-width: auto;
-  padding: 0.42rem 0.72rem;
-}
-.aab--label-side .aab__label,
-.aab--label-right .aab__label {
-  max-width: none;
-  white-space: nowrap;
-  text-align: left;
+  padding: var(--aab-link-pad-y) var(--aab-link-pad-x)
 }
 
-.aab--label-side.aab--align-start:not(.aab--bordered) .aab__list,
-.aab--label-side.aab--align-left:not(.aab--bordered) .aab__list,
-.aab--label-right.aab--align-start:not(.aab--bordered) .aab__list,
-.aab--label-right.aab--align-left:not(.aab--bordered) .aab__list {
-  margin-left: -0.72rem;
+.aab--label-right .aab__label,
+.aab--label-side .aab__label {
+  max-width: none;
+  white-space: nowrap;
+  text-align: left
 }
+
 .aab__link:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
+  outline: currentColor solid 2px;
+  outline-offset: 2px
 }
+
 .aab__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   line-height: 0;
-  opacity: 0.92;
+  opacity: .92;
   overflow: hidden;
-  flex: 0 0 auto;
+  flex: 0 0 auto
 }
-.aab__icon svg,
-.aab__icon img {
+
+.aab__icon img,
+.aab__icon svg {
   display: block;
   width: 100%;
-  height: 100%;
+  height: 100%
 }
+
 .aab__label {
   font-size: var(--aab-label-size);
   color: var(--aab-muted);
   font-weight: 500;
   white-space: nowrap;
-  max-width: 100%;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis
 }
-.aab__link:hover .aab__label { color: inherit; }
 
-/* sizes */
-.aab--sm { --aab-icon-box: 38px; --aab-icon-size: 18px; --aab-title-size: 0.85rem; --aab-label-size: 0.66rem; }
-.aab--md { --aab-icon-box: 44px; --aab-icon-size: 22px; }
-.aab--lg { --aab-icon-box: 56px; --aab-icon-size: 26px; --aab-title-size: 1.05rem; --aab-label-size: 0.78rem; }
+.aab--sm {
+  --aab-icon-box: 38px;
+  --aab-icon-size: 18px;
+  --aab-title-size: 0.85rem;
+  --aab-label-size: 0.66rem;
+  --aab-link-pad-x: 0.5rem;
+  --aab-link-pad-y: 0.35rem
+}
 
-/* disclaimer + copy-handoff hint */
+.aab--md {
+  --aab-icon-box: 44px;
+  --aab-icon-size: 22px;
+  --aab-link-pad-x: 0.65rem;
+  --aab-link-pad-y: 0.45rem
+}
+
+.aab--lg {
+  --aab-icon-box: 56px;
+  --aab-icon-size: 26px;
+  --aab-title-size: 1.05rem;
+  --aab-label-size: 0.78rem;
+  --aab-link-pad-x: 0.8rem;
+  --aab-link-pad-y: 0.55rem
+}
+
 .aab__disclaimer,
 .aab__hint {
-  margin: 0.6rem 0 0;
-  font-size: 0.7rem;
-  color: var(--aab-muted);
-}
-.aab__hint { font-weight: 600; }
-
-/* Respect users who prefer no animation (also avoids needless repaints) */
-@media (prefers-reduced-motion: reduce) {
-  .aab__link { transition: none; }
-  .aab__link:hover { transform: none; }
+  margin: .6rem 0 0;
+  font-size: .7rem;
+  color: var(--aab-muted)
 }
 
-/* ---- responsive: tighten up in narrow containers (footer columns, sidebars) ---- */
-@container ask-ai-badge (max-width: 320px) {
+.aab__hint {
+  font-weight: 600
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .aab__link {
+    transition: none
+  }
+
+  .aab__link:hover {
+    transform: none
+  }
+}
+
+@container ask-ai-badge (max-width:320px) {
   .aab {
-    padding: 0.75rem 0.5rem;
+    padding: .75rem .5rem;
     --aab-gap: 0.35rem;
     --aab-icon-box: 40px;
+    --aab-link-pad-x: 0.5rem;
+    --aab-link-pad-y: 0.35rem
   }
-  .aab__link { padding: 0.45rem 0.5rem; }
 }
 
-/* Fallback for browsers without container queries */
-@supports not (container-type: inline-size) {
-  @media (max-width: 380px) {
+@supports not (container-type:inline-size) {
+  @media (max-width:380px) {
     .aab {
-      padding: 0.75rem 0.5rem;
+      padding: .75rem .5rem;
       --aab-gap: 0.35rem;
       --aab-icon-box: 40px;
+      --aab-link-pad-x: 0.5rem;
+      --aab-link-pad-y: 0.35rem
     }
-    .aab__link { padding: 0.45rem 0.5rem; }
   }
 }

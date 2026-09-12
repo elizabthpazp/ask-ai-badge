@@ -131,6 +131,13 @@ const STR = {
     flNewTab: "New tab",
     flIconsOnly: "Icons only",
     flDisclaimer: "Disclaimer",
+    gColors: "Colors",
+    cReset: "Reset",
+    cBg: "Background",
+    cFg: "Text / Icons",
+    cHoverBg: "Hover bg",
+    cBorder: "Border",
+    cMuted: "Muted text",
     resolved: "Prompt sent to AIs:",
     stageDesktop: "Desktop",
     stageTablet: "Tablet",
@@ -216,6 +223,13 @@ const STR = {
     flNewTab: "Pestaña nueva",
     flIconsOnly: "Solo iconos",
     flDisclaimer: "Disclaimer",
+    gColors: "Colores",
+    cReset: "Resetear",
+    cBg: "Fondo",
+    cFg: "Texto / Iconos",
+    cHoverBg: "Hover fondo",
+    cBorder: "Borde",
+    cMuted: "Texto suave",
     resolved: "Prompt enviado a las IAs:",
     stageDesktop: "Escritorio",
     stageTablet: "Tablet",
@@ -293,6 +307,15 @@ export function App() {
   const [showDisclaimer, setShowDisclaimer] = useState(false);
   const [stageW, setStageW] = useState<"full" | "480" | "320">("full");
   const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  // Color customization (CSS vars)
+  const [colorBg, setColorBg] = useState("");
+  const [colorFg, setColorFg] = useState("");
+  const [colorHoverBg, setColorHoverBg] = useState("");
+  const [colorBorder, setColorBorder] = useState("");
+  const [colorMuted, setColorMuted] = useState("");
+  const hasColors = colorBg || colorFg || colorHoverBg || colorBorder || colorMuted;
+  const resetColors = () => { setColorBg(""); setColorFg(""); setColorHoverBg(""); setColorBorder(""); setColorMuted(""); };
   const [enabled, setEnabled] = useState<Record<string, boolean>>({
     chatgpt: true, claude: true, gemini: true, google: false, perplexity: true, grok: true,
   });
@@ -326,6 +349,16 @@ export function App() {
     return list.map((provider) => ({ ...provider, href: buildProviderUrl(provider, resolvedPrompt) }));
   }, [providers, resolvedPrompt]);
 
+  const colorStyle = useMemo(() => {
+    const s: Record<string, string> = {};
+    if (colorBg) s["--aab-bg"] = colorBg;
+    if (colorFg) s["--aab-fg"] = colorFg;
+    if (colorHoverBg) s["--aab-hover-bg"] = colorHoverBg;
+    if (colorBorder) { s["--aab-border"] = colorBorder; s["--aab-hover-border"] = colorBorder; }
+    if (colorMuted) s["--aab-muted"] = colorMuted;
+    return Object.keys(s).length ? s : undefined;
+  }, [colorBg, colorFg, colorHoverBg, colorBorder, colorMuted]);
+
   const badge = (
     <AskAiBadge
       productName={productName.trim() || "[Product]"}
@@ -350,6 +383,7 @@ export function App() {
       newTab={newTab}
       iconsOnly={iconsOnly}
       showDisclaimer={showDisclaimer}
+      style={colorStyle}
     />
   );
 
@@ -387,11 +421,12 @@ export function App() {
       !newTab ? `  newTab={false}` : null,
       iconsOnly ? `  iconsOnly` : null,
       showDisclaimer ? `  showDisclaimer` : null,
+      hasColors ? `  style={${JSON.stringify(colorStyle, null, 2).replace(/"/g, "'")}}` : null,
       `/>`,
     ]
       .filter((l): l is string => l !== null)
       .join("\n");
-  }, [productName, productUrl, description, lang, providers, theme, layout, size, titleSize, labelSize, iconSize, align, titleAlign, showLabels, showBorder, showTitleIcon, newTab, iconsOnly, showDisclaimer]);
+  }, [productName, productUrl, description, lang, providers, theme, layout, size, titleSize, labelSize, iconSize, align, titleAlign, showLabels, showBorder, showTitleIcon, newTab, iconsOnly, showDisclaimer, hasColors, colorStyle]);
 
   const flag = (label: string, value: boolean, set: (v: boolean) => void) => (
     <label className="p2-check" key={label}>
@@ -664,6 +699,49 @@ export function App() {
                     {flag(t.flIconsOnly, iconsOnly, setIconsOnly)}
                     {flag(t.flDisclaimer, showDisclaimer, setShowDisclaimer)}
                   </div>
+
+                  {/* Color customizer */}
+                  <details className="p2-details p2-colors-details" open={!!hasColors}>
+                    <summary>
+                      <span>{t.gColors}</span>
+                      {hasColors && (
+                        <button className="p2-color-reset" onClick={(e) => { e.preventDefault(); resetColors(); }} title={t.cReset}>
+                          ↺ {t.cReset}
+                        </button>
+                      )}
+                    </summary>
+                    <div className="p2-color-grid">
+                      {([
+                        { label: t.cBg, val: colorBg, set: setColorBg, ph: "transparent" },
+                        { label: t.cFg, val: colorFg, set: setColorFg, ph: "inherit" },
+                        { label: t.cHoverBg, val: colorHoverBg, set: setColorHoverBg, ph: "auto" },
+                        { label: t.cBorder, val: colorBorder, set: setColorBorder, ph: "auto" },
+                        { label: t.cMuted, val: colorMuted, set: setColorMuted, ph: "auto" },
+                      ] as { label: string; val: string; set: (v: string) => void; ph: string }[]).map(({ label, val, set, ph }) => (
+                        <label key={label} className="p2-color-row">
+                          <span className="p2-color-label">{label}</span>
+                          <div className="p2-color-inputs">
+                            <input
+                              type="color"
+                              className="p2-color-swatch"
+                              value={val || "#000000"}
+                              onChange={(e) => set(e.target.value)}
+                            />
+                            <input
+                              className="p2-color-text"
+                              value={val}
+                              onChange={(e) => set(e.target.value)}
+                              placeholder={ph}
+                              spellCheck={false}
+                            />
+                            {val && (
+                              <button className="p2-color-clear" onClick={() => set("")} title="Clear">✕</button>
+                            )}
+                          </div>
+                        </label>
+                      ))}
+                    </div>
+                  </details>
                 </>
               )}
 
@@ -701,6 +779,7 @@ export function App() {
             </div>
             <div
               className="p2-showcase"
+              data-stage={stageW}
               style={stageW === "full" ? undefined : { maxWidth: `${stageW}px`, marginInline: "auto", width: "100%" }}
             >
               <p className="p2-kicker">{productUrl.trim() || "https://example.com"}</p>

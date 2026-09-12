@@ -529,7 +529,7 @@ export function App() {
             title="ask-ai-badge on npm"
           >
             <NpmLogo />
-            <span className="p2-npm-ver">v1.0.10</span>
+            <span className="p2-npm-ver">v1.0.11</span>
           </a>
           <div className="p2-seg" role="group" aria-label="Language">
             {(["en", "es"] as Lang[]).map((l) => (

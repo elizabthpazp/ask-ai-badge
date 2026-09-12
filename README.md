@@ -7,6 +7,7 @@
   <a href="https://www.npmjs.com/package/ask-ai-badge"><img src="https://img.shields.io/npm/dm/ask-ai-badge.svg?style=flat-square&color=38bdf8" alt="npm downloads" /></a>
   <a href="https://github.com/elizabthpazp/ask-ai-badge/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/ask-ai-badge.svg?style=flat-square&color=c084fc" alt="license" /></a>
   <a href="https://react.dev"><img src="https://img.shields.io/badge/react-%3E%3D18-61dafb.svg?style=flat-square" alt="react" /></a>
+  <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components"><img src="https://img.shields.io/badge/web%20components-native-E34F26.svg?style=flat-square" alt="web components" /></a>
   <a href="https://www.typescriptlang.org"><img src="https://img.shields.io/badge/types-TypeScript-3178c6.svg?style=flat-square" alt="typescript" /></a>
   <a href="https://ask-ai-badge.elijs.dev"><img src="https://img.shields.io/badge/demo-live%20playground-10b981.svg?style=flat-square" alt="live demo" /></a>
 </p>
@@ -29,7 +30,7 @@
 +--------------------------------------------------+
 ```
 
-> **Keywords / SEO:** react ai badge, ask ai button, ask chatgpt about my website, "ask ai" footer badge, ai discovery widget, chatgpt claude gemini perplexity grok links, llm deep links, ai search badge, nextjs ai component, i18n react badge.
+> **Keywords / SEO:** universal ai badge, web component ai badge, ask ai button, ask chatgpt about my website, "ask ai" footer badge, ai discovery widget, chatgpt claude gemini perplexity grok links, llm deep links, vue nuxt angular ai component, i18n ai badge.
 
 ## Why it exists
 

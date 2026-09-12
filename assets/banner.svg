@@ -129,8 +129,8 @@
   <g transform="translate(300, 72)">
     <!-- Version Tag -->
     <g transform="translate(0, 0)">
-      <rect x="0" y="0" width="138" height="24" rx="12" fill="rgba(99, 102, 241, 0.15)" stroke="rgba(99, 102, 241, 0.4)" stroke-width="1" />
-      <text x="12" y="16" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11.5" font-weight="700" fill="#818cf8" letter-spacing="0.05em">REACT COMPONENT</text>
+      <rect x="0" y="0" width="168" height="24" rx="12" fill="rgba(99, 102, 241, 0.15)" stroke="rgba(99, 102, 241, 0.4)" stroke-width="1" />
+      <text x="12" y="16" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11.5" font-weight="700" fill="#818cf8" letter-spacing="0.05em">UNIVERSAL COMPONENT</text>
     </g>
 
     <!-- Main Title -->
@@ -140,7 +140,7 @@
 
     <!-- Subtitle -->
     <text x="0" y="98" class="sub">
-      The "Ask AI about your product" button for React
+      The "Ask AI about your product" button for any framework
     </text>
 
     <!-- AI Providers Pills / Badges -->

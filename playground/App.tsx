@@ -9,6 +9,7 @@ import {
 } from "../src/providers";
 import type {
   AskAiAlign,
+  AskAiLabelPosition,
   AskAiLayout,
   AskAiSize,
   AskAiTheme,
@@ -16,6 +17,65 @@ import type {
 } from "../src/types";
 
 type Lang = "en" | "es";
+type CtrlTab = "product" | "style" | "providers";
+type OutputTab = "code" | "links";
+type PkgManager = "npm" | "pnpm" | "bun" | "yarn";
+
+const PKG_CONFIG: Record<
+  PkgManager,
+  {
+    cmd: string;
+    arg: string;
+    pkg: string;
+    color: string;
+    accentBg: string;
+    label: string;
+  }
+> = {
+  npm: {
+    cmd: "npm",
+    arg: "i",
+    pkg: "ask-ai-badge",
+    color: "#ff4d4f",
+    accentBg: "rgba(255, 77, 79, 0.16)",
+    label: "npm",
+  },
+  pnpm: {
+    cmd: "pnpm",
+    arg: "add",
+    pkg: "ask-ai-badge",
+    color: "#f97316",
+    accentBg: "rgba(249, 115, 22, 0.16)",
+    label: "pnpm",
+  },
+  bun: {
+    cmd: "bun",
+    arg: "add",
+    pkg: "ask-ai-badge",
+    color: "#f59e0b",
+    accentBg: "rgba(245, 158, 11, 0.16)",
+    label: "bun",
+  },
+  yarn: {
+    cmd: "yarn",
+    arg: "add",
+    pkg: "ask-ai-badge",
+    color: "#38bdf8",
+    accentBg: "rgba(56, 189, 248, 0.16)",
+    label: "yarn",
+  },
+};
+
+function NpmLogo({ className = "p2-npm-logo" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 780 250" className={className} aria-label="npm">
+      <path
+        fill="#cb3837"
+        d="M240,250h100v-50h100V0H240V250z M340,50h50v100h-50V50z M480,0v200h100V50h50v150h50V50h50v150h50V0H480z M0,200h100V50h50v150h50V0H0V200z"
+      />
+    </svg>
+  );
+}
 
 const STR = {
   en: {
@@ -23,18 +83,25 @@ const STR = {
     navFooter: "Footer",
     navSetup: "Setup",
     heroEyebrow: "React · Zero dependencies · 6 languages",
-    heroTitleA: "Let visitors",
+    heroTitleA: "Let visitors ",
     heroTitleB: "ask AI about your product.",
     heroSub: "One badge for your footer. It opens ChatGPT, Claude, Gemini, Perplexity and Grok with a question about you — already written.",
     ctaTry: "Try it live",
+    ctaSetup: "Setup guide",
     ctaInstall: "npm i ask-ai-badge",
     copied: "Copied",
+    terminalCopy: "Copy",
+    terminalCopied: "Copied!",
+    terminalClickToCopy: "Click to copy",
     chip1: "No backend",
     chip2: "5 AIs, 1 click",
     chip3: "~8 KB gzip",
     tryEyebrow: "Interactive demo",
     tryTitle: "Add your info. Watch it work.",
     trySub: "Everything updates live — including the code below.",
+    tabProduct: "Product",
+    tabStyle: "Style",
+    tabProviders: "AIs",
     gInfo: "Your product",
     fName: "Name",
     fUrl: "Website URL",
@@ -50,6 +117,10 @@ const STR = {
     fAlign: "Align",
     fTitleAlign: "Title align",
     fTitleAlignAuto: "= general align",
+    fLabelPos: "Label position",
+    fLabelPosBottom: "Underneath",
+    fLabelPosSide: "Beside icon",
+    fFontSize: "Font size (px)",
     fIconPx: "Icon px",
     advanced: "Fine sizes (px)",
     fTitlePx: "Title",
@@ -60,7 +131,7 @@ const STR = {
     flNewTab: "New tab",
     flIconsOnly: "Icons only",
     flDisclaimer: "Disclaimer",
-    resolved: "Prompt sent to the AIs:",
+    resolved: "Prompt sent to AIs:",
     stageDesktop: "Desktop",
     stageTablet: "Tablet",
     stageMobile: "Mobile",
@@ -79,7 +150,7 @@ const STR = {
     s2d: "Component + styles.",
     s3t: "Drop it",
     s3d: "Footer, pricing, docs — anywhere.",
-    codeTitle: "Your code, generated live",
+    codeTitle: "Generated code",
     linksTitle: "Generated links",
     noProviders: "Enable at least one assistant.",
     tryBtn: "Try →",
@@ -89,24 +160,33 @@ const STR = {
     copyBtn: "Copy",
     tick: "✓",
     madeWith: "MIT · Zero dependencies · Tree-shakeable",
+    outputCode: "Code",
+    outputLinks: "Links",
   },
   es: {
     navTry: "Pruébalo",
     navFooter: "Footer",
     navSetup: "Instalar",
     heroEyebrow: "React · Cero dependencias · 6 idiomas",
-    heroTitleA: "Deja que pregunten",
+    heroTitleA: "Deja que pregunten ",
     heroTitleB: "a la IA sobre tu producto.",
     heroSub: "Un badge para tu footer. Abre ChatGPT, Claude, Gemini, Perplexity y Grok con una pregunta sobre ti — ya escrita.",
     ctaTry: "Pruébalo en vivo",
+    ctaSetup: "Ver instalación",
     ctaInstall: "npm i ask-ai-badge",
     copied: "Copiado",
+    terminalCopy: "Copiar",
+    terminalCopied: "¡Copiado!",
+    terminalClickToCopy: "Clic para copiar",
     chip1: "Sin backend",
     chip2: "5 IAs, 1 clic",
     chip3: "~8 KB gzip",
     tryEyebrow: "Demo interactiva",
     tryTitle: "Agrega tu info. Míralo funcionar.",
     trySub: "Todo se actualiza en vivo — incluido el código de abajo.",
+    tabProduct: "Producto",
+    tabStyle: "Estilo",
+    tabProviders: "IAs",
     gInfo: "Tu producto",
     fName: "Nombre",
     fUrl: "URL del sitio",
@@ -122,6 +202,10 @@ const STR = {
     fAlign: "Alineación",
     fTitleAlign: "Título alinear",
     fTitleAlignAuto: "= alineación general",
+    fLabelPos: "Posición nombres",
+    fLabelPosBottom: "Abajo",
+    fLabelPosSide: "Al lado",
+    fFontSize: "Tamaño letra (px)",
     fIconPx: "Icono px",
     advanced: "Tamaños finos (px)",
     fTitlePx: "Título",
@@ -161,6 +245,8 @@ const STR = {
     copyBtn: "Copiar",
     tick: "✓",
     madeWith: "MIT · Cero dependencias · Tree-shakeable",
+    outputCode: "Código",
+    outputLinks: "Enlaces",
   },
 } satisfies Record<Lang, Record<string, string>>;
 
@@ -178,6 +264,13 @@ export function App() {
   const [dark, setDark] = useState(false);
   const t = STR[lang];
 
+  // Control panel tabs
+  const [ctrlTab, setCtrlTab] = useState<CtrlTab>("product");
+  // Output tabs (code vs links)
+  const [outputTab, setOutputTab] = useState<OutputTab>("code");
+  // Package manager for hero terminal
+  const [pkgMgr, setPkgMgr] = useState<PkgManager>("npm");
+
   const [productName, setProductName] = useState("[Product]");
   const [productUrl, setProductUrl] = useState("https://example.com");
   const [description, setDescription] = useState("");
@@ -185,12 +278,14 @@ export function App() {
   const [theme, setTheme] = useState<AskAiTheme>("auto");
   const [layout, setLayout] = useState<AskAiLayout>("wrap");
   const [size, setSize] = useState<AskAiSize>("md");
+  const [fontSize, setFontSize] = useState("");
   const [align, setAlign] = useState<AskAiAlign>("center");
   const [titleAlign, setTitleAlign] = useState<AskAiAlign | "">("");
   const [iconSize, setIconSize] = useState("");
   const [titleSize, setTitleSize] = useState("");
   const [labelSize, setLabelSize] = useState("");
   const [showLabels, setShowLabels] = useState(false);
+  const [labelPosition, setLabelPosition] = useState<AskAiLabelPosition>("bottom");
   const [showBorder, setShowBorder] = useState(false);
   const [showTitleIcon, setShowTitleIcon] = useState(false);
   const [newTab, setNewTab] = useState(true);
@@ -204,7 +299,7 @@ export function App() {
   const [labels, setLabels] = useState<Record<string, string>>({ ...BUILT_IN_LABELS });
 
   const copy = (text: string, id: string) => {
-    navigator.clipboard?.writeText(text).catch(() => {});
+    navigator.clipboard?.writeText(text).catch(() => { });
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 1400);
   };
@@ -242,12 +337,14 @@ export function App() {
       theme={theme}
       layout={layout}
       size={size}
+      fontSize={fontSize.trim() ? Number(fontSize) : undefined}
       titleSize={titleSize.trim() ? Number(titleSize) : undefined}
       labelSize={labelSize.trim() ? Number(labelSize) : undefined}
       iconSize={iconSize.trim() ? Number(iconSize) : undefined}
       align={align}
       titleAlign={titleAlign || undefined}
       showLabels={showLabels}
+      labelPosition={labelPosition}
       showBorder={showBorder}
       showTitleIcon={showTitleIcon}
       newTab={newTab}
@@ -277,12 +374,14 @@ export function App() {
       theme !== "auto" ? `  theme="${theme}"` : null,
       layout !== "wrap" ? `  layout="${layout}"` : null,
       size !== "md" ? `  size="${size}"` : null,
+      fontSize.trim() ? `  fontSize={${Number(fontSize)}}` : null,
       titleSize.trim() ? `  titleSize={${Number(titleSize)}}` : null,
       labelSize.trim() ? `  labelSize={${Number(labelSize)}}` : null,
       iconSize.trim() ? `  iconSize={${Number(iconSize)}}` : null,
       align !== "center" ? `  align="${align}"` : null,
       titleAlign ? `  titleAlign="${titleAlign}"` : null,
       showLabels ? `  showLabels` : null,
+      showLabels && labelPosition !== "bottom" ? `  labelPosition="${labelPosition}"` : null,
       showBorder ? `  showBorder` : null,
       showTitleIcon ? `  showTitleIcon` : null,
       !newTab ? `  newTab={false}` : null,
@@ -305,18 +404,34 @@ export function App() {
     <div className={`p2${dark ? " p2--dark" : ""}`}>
       {/* NAV */}
       <nav className="p2-nav">
-        <a className="p2-brand" href="#top">
-          <span aria-hidden>✦</span> ask-ai-badge
-        </a>
+        <div className="p2-brand-group">
+          <a className="p2-brand" href="#top">
+            <span aria-hidden>✦</span> ask-ai-badge
+          </a>
+          <a
+            href="https://elijs.dev/"
+            target="_blank"
+            rel="noreferrer"
+            className="p2-creator-pill"
+            title="Created by elijs.dev"
+          >
+            <span className="p2-creator-sparkle" aria-hidden="true">✨</span>
+            <span>by <strong>elijs.dev</strong></span>
+          </a>
+        </div>
         <div className="p2-nav-right">
           <a href="#try">{t.navTry}</a>
           <a href="#footer-demo">{t.navFooter}</a>
           <a href="#setup">{t.navSetup}</a>
-          <a href="https://www.npmjs.com/package/ask-ai-badge" target="_blank" rel="noreferrer" className="p2-npm-nav">
-            <svg height="16" viewBox="0 0 24 24" width="16" fill="currentColor" aria-hidden="true">
-              <path d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0H1.763zM12 22.237H1.763V1.763H12v20.474zm10.237 0H12V1.763h10.237v20.474z"/>
-            </svg>
-            npm
+          <a
+            href="https://www.npmjs.com/package/ask-ai-badge"
+            target="_blank"
+            rel="noreferrer"
+            className="p2-npm-nav"
+            title="ask-ai-badge on npm"
+          >
+            <NpmLogo />
+            <span className="p2-npm-ver">v1.0.3</span>
           </a>
           <div className="p2-seg" role="group" aria-label="Language">
             {(["en", "es"] as Lang[]).map((l) => (
@@ -337,97 +452,239 @@ export function App() {
         <h1>
           {t.heroTitleA}
           <br />
-          {t.heroTitleB}
+          <span className="p2-grad">{t.heroTitleB}</span>
         </h1>
         <p className="p2-sub">{t.heroSub}</p>
+
+        {/* Interactive terminal */}
+        <div className="p2-terminal-wrapper">
+          <div className="p2-terminal" role="region" aria-label="Terminal install command">
+            <div className="p2-terminal-bar">
+              <div className="p2-terminal-dots" aria-hidden="true">
+                <span className="p2-tdot p2-tdot-close" />
+                <span className="p2-tdot p2-tdot-min" />
+                <span className="p2-tdot p2-tdot-max" />
+              </div>
+
+              <div className="p2-terminal-tabs" role="tablist" aria-label="Package managers">
+                {(["npm", "pnpm", "bun", "yarn"] as PkgManager[]).map((pm) => {
+                  const active = pkgMgr === pm;
+                  const cfg = PKG_CONFIG[pm];
+                  return (
+                    <button
+                      key={pm}
+                      type="button"
+                      role="tab"
+                      aria-selected={active}
+                      className={`p2-terminal-tab ${active ? "active" : ""}`}
+                      onClick={() => setPkgMgr(pm)}
+                      style={{
+                        "--tab-color": cfg.color,
+                        "--tab-bg": cfg.accentBg,
+                      } as React.CSSProperties}
+                    >
+                      <span className="p2-tab-dot" aria-hidden="true" />
+                      <span className="p2-tab-name">{cfg.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <button
+                type="button"
+                className={`p2-terminal-copy-btn ${copiedId === "terminal" ? "copied" : ""}`}
+                onClick={() =>
+                  copy(
+                    `${PKG_CONFIG[pkgMgr].cmd} ${PKG_CONFIG[pkgMgr].arg} ${PKG_CONFIG[pkgMgr].pkg}`,
+                    "terminal"
+                  )
+                }
+                title={t.terminalClickToCopy}
+                aria-label="Copy install command"
+              >
+                {copiedId === "terminal" ? (
+                  <>
+                    <svg className="p2-ticon" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M13.25 4.75 6 12 2.75 8.75" />
+                    </svg>
+                    <span>{t.terminalCopied}</span>
+                  </>
+                ) : (
+                  <>
+                    <svg className="p2-ticon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect width="13" height="13" x="9" y="9" rx="2" ry="2" />
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                    </svg>
+                    <span>{t.terminalCopy}</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            <div
+              className="p2-terminal-body"
+              onClick={() =>
+                copy(
+                  `${PKG_CONFIG[pkgMgr].cmd} ${PKG_CONFIG[pkgMgr].arg} ${PKG_CONFIG[pkgMgr].pkg}`,
+                  "terminal"
+                )
+              }
+              title={t.terminalClickToCopy}
+            >
+              <div className="p2-terminal-line">
+                <span className="p2-t-path" aria-hidden="true">~</span>
+                <span className="p2-t-prompt" aria-hidden="true">❯</span>
+                <span
+                  className="p2-t-cmd"
+                  style={{ color: PKG_CONFIG[pkgMgr].color }}
+                >
+                  {PKG_CONFIG[pkgMgr].cmd}
+                </span>
+                <span className="p2-t-arg">{PKG_CONFIG[pkgMgr].arg}</span>
+                <span className="p2-t-pkg">{PKG_CONFIG[pkgMgr].pkg}</span>
+                <span className="p2-t-cursor" aria-hidden="true" />
+              </div>
+              <span className="p2-t-hint">{copiedId === "terminal" ? `✓ ${t.terminalCopied}` : t.terminalClickToCopy}</span>
+            </div>
+          </div>
+        </div>
+
         <div className="p2-cta">
           <a href="#try" className="p2-btn">{t.ctaTry} ↓</a>
-          <button className="p2-btn p2-btn--ghost" onClick={() => copy("npm i ask-ai-badge", "install")}>
-            <code>{t.ctaInstall}</code> {copiedId === "install" ? t.tick : "⧉"}
-          </button>
+          <a href="#setup" className="p2-btn p2-btn--ghost">{t.ctaSetup} →</a>
         </div>
         <div className="p2-chips">
           <span>{t.chip1}</span>
           <span>{t.chip2}</span>
           <span>{t.chip3}</span>
+          <a
+            href="https://elijs.dev/"
+            target="_blank"
+            rel="noreferrer"
+            className="p2-chip-creator"
+            title="Portfolio de Eli"
+          >
+            ✦ by <strong>elijs.dev</strong>
+          </a>
         </div>
       </header>
 
-      {/* TRY */}
+      {/* TRY — Interactive demo */}
       <section className="p2-section" id="try">
         <p className="p2-eyebrow">{t.tryEyebrow}</p>
         <h2>{t.tryTitle}</h2>
         <p className="p2-sub">{t.trySub}</p>
 
         <div className="p2-try">
+          {/* Tabbed controls panel */}
           <aside className="p2-controls">
-            <h3>{t.gInfo}</h3>
-            <label>{t.fName}<input value={productName} onChange={(e) => setProductName(e.target.value)} placeholder="[Product]" /></label>
-            <label>{t.fUrl}<input value={productUrl} onChange={(e) => setProductUrl(e.target.value)} placeholder="https://example.com" /></label>
-            <label>{t.fDesc}<textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder={t.fDescPh} rows={2} /></label>
-            <label>{t.fPrompt}<input value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder={t.fPromptPh} /></label>
-
-            <h3>{t.gProviders}</h3>
-            <div className="p2-provs">
-              {ALL.map((id) => (
-                <label key={id} className={`p2-prov${enabled[id] ? " on" : ""}`}>
-                  <input type="checkbox" checked={!!enabled[id]} onChange={() => setEnabled((e) => ({ ...e, [id]: !e[id] }))} />
-                  {labels[id]}
-                </label>
+            <div className="p2-ctrl-tabs">
+              {(["product", "style", "providers"] as CtrlTab[]).map((tab) => (
+                <button key={tab} className={ctrlTab === tab ? "on" : ""} onClick={() => setCtrlTab(tab)}>
+                  {tab === "product" ? t.tabProduct : tab === "style" ? t.tabStyle : t.tabProviders}
+                </button>
               ))}
             </div>
 
-            <h3>{t.gLook}</h3>
-            <div className="p2-grid2">
-              <label>{t.fTheme}
-                <select value={theme} onChange={(e) => setTheme(e.target.value as AskAiTheme)}>
-                  <option value="auto">auto</option><option value="light">light</option><option value="dark">dark</option>
-                </select>
-              </label>
-              <label>{t.fLayout}
-                <select value={layout} onChange={(e) => setLayout(e.target.value as AskAiLayout)}>
-                  <option value="wrap">wrap</option><option value="row">row</option>
-                  <option value="grid">grid</option><option value="compact">compact</option>
-                </select>
-              </label>
-              <label>{t.fSize}
-                <select value={size} onChange={(e) => setSize(e.target.value as AskAiSize)}>
-                  <option value="sm">sm</option><option value="md">md</option><option value="lg">lg</option>
-                </select>
-              </label>
-              <label>{t.fAlign}
-                <select value={align} onChange={(e) => setAlign(e.target.value as AskAiAlign)}>
-                  <option value="start">start</option><option value="center">center</option><option value="end">end</option>
-                </select>
-              </label>
-              <label>{t.fTitleAlign}
-                <select value={titleAlign} onChange={(e) => setTitleAlign(e.target.value as AskAiAlign | "")}>
-                  <option value="">{t.fTitleAlignAuto}</option>
-                  <option value="start">start</option><option value="center">center</option><option value="end">end</option>
-                </select>
-              </label>
-              <label>{t.fIconPx}
-                <input value={iconSize} onChange={(e) => setIconSize(e.target.value)} placeholder="auto" inputMode="numeric" />
-              </label>
+            <div className="p2-ctrl-body" key={ctrlTab}>
+              {/* Product tab */}
+              {ctrlTab === "product" && (
+                <>
+                  <label>{t.fName}<input value={productName} onChange={(e) => setProductName(e.target.value)} placeholder="[Product]" /></label>
+                  <label>{t.fUrl}<input value={productUrl} onChange={(e) => setProductUrl(e.target.value)} placeholder="https://example.com" /></label>
+                  <label>{t.fDesc}<textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder={t.fDescPh} rows={2} /></label>
+                  <label>{t.fPrompt}<input value={prompt} onChange={(e) => setPrompt(e.target.value)} placeholder={t.fPromptPh} /></label>
+                  <p className="p2-resolved"><strong>{t.resolved}</strong> {resolvedPrompt}</p>
+                </>
+              )}
+
+              {/* Style tab */}
+              {ctrlTab === "style" && (
+                <>
+                  <div className="p2-grid2">
+                    <label>{t.fTheme}
+                      <select value={theme} onChange={(e) => setTheme(e.target.value as AskAiTheme)}>
+                        <option value="auto">auto</option><option value="light">light</option><option value="dark">dark</option>
+                      </select>
+                    </label>
+                    <label>{t.fLayout}
+                      <select value={layout} onChange={(e) => setLayout(e.target.value as AskAiLayout)}>
+                        <option value="wrap">wrap</option><option value="row">row</option>
+                        <option value="grid">grid</option><option value="compact">compact</option>
+                      </select>
+                    </label>
+                    <label>{t.fSize}
+                      <select value={size} onChange={(e) => setSize(e.target.value as AskAiSize)}>
+                        <option value="sm">sm</option><option value="md">md</option><option value="lg">lg</option>
+                      </select>
+                    </label>
+                    <label>{t.fFontSize}
+                      <input value={fontSize} onChange={(e) => setFontSize(e.target.value)} placeholder="auto (px)" inputMode="numeric" />
+                    </label>
+                    <label>{t.fAlign}
+                      <select value={align} onChange={(e) => setAlign(e.target.value as AskAiAlign)}>
+                        <option value="start">start</option><option value="center">center</option><option value="end">end</option>
+                      </select>
+                    </label>
+                    <label>{t.fTitleAlign}
+                      <select value={titleAlign} onChange={(e) => setTitleAlign(e.target.value as AskAiAlign | "")}>
+                        <option value="">{t.fTitleAlignAuto}</option>
+                        <option value="start">start</option><option value="center">center</option><option value="end">end</option>
+                      </select>
+                    </label>
+                    <label>{t.fLabelPos}
+                      <select
+                        value={labelPosition}
+                        onChange={(e) => {
+                          const pos = e.target.value as AskAiLabelPosition;
+                          setLabelPosition(pos);
+                          if (pos === "side" && !showLabels) setShowLabels(true);
+                        }}
+                      >
+                        <option value="bottom">{t.fLabelPosBottom}</option>
+                        <option value="side">{t.fLabelPosSide}</option>
+                      </select>
+                    </label>
+                    <label>{t.fIconPx}
+                      <input value={iconSize} onChange={(e) => setIconSize(e.target.value)} placeholder="auto (px)" inputMode="numeric" />
+                    </label>
+                  </div>
+                  <details className="p2-details" open={Boolean(titleSize || labelSize)}>
+                    <summary>{t.advanced}</summary>
+                    <div className="p2-grid2">
+                      <label>{t.fTitlePx}<input value={titleSize} onChange={(e) => setTitleSize(e.target.value)} placeholder="auto (px)" inputMode="numeric" /></label>
+                      <label>{t.fLabelPx}<input value={labelSize} onChange={(e) => setLabelSize(e.target.value)} placeholder="auto (px)" inputMode="numeric" /></label>
+                    </div>
+                  </details>
+                  <div className="p2-flags">
+                    {flag(t.flLabels, showLabels, setShowLabels)}
+                    {flag(t.flBorder, showBorder, setShowBorder)}
+                    {flag(t.flTitleIcon, showTitleIcon, setShowTitleIcon)}
+                    {flag(t.flNewTab, newTab, setNewTab)}
+                    {flag(t.flIconsOnly, iconsOnly, setIconsOnly)}
+                    {flag(t.flDisclaimer, showDisclaimer, setShowDisclaimer)}
+                  </div>
+                </>
+              )}
+
+              {/* Providers tab */}
+              {ctrlTab === "providers" && (
+                <>
+                  <h3>{t.gProviders}</h3>
+                  <div className="p2-provs">
+                    {ALL.map((id) => (
+                      <label key={id} className={`p2-prov${enabled[id] ? " on" : ""}`}>
+                        <input type="checkbox" checked={!!enabled[id]} onChange={() => setEnabled((e) => ({ ...e, [id]: !e[id] }))} />
+                        {labels[id]}
+                      </label>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
-            <details className="p2-details">
-              <summary>{t.advanced}</summary>
-              <div className="p2-grid2">
-                <label>{t.fTitlePx}<input value={titleSize} onChange={(e) => setTitleSize(e.target.value)} placeholder="auto" inputMode="numeric" /></label>
-                <label>{t.fLabelPx}<input value={labelSize} onChange={(e) => setLabelSize(e.target.value)} placeholder="auto" inputMode="numeric" /></label>
-              </div>
-            </details>
-            <div className="p2-flags">
-              {flag(t.flLabels, showLabels, setShowLabels)}
-              {flag(t.flBorder, showBorder, setShowBorder)}
-              {flag(t.flTitleIcon, showTitleIcon, setShowTitleIcon)}
-              {flag(t.flNewTab, newTab, setNewTab)}
-              {flag(t.flIconsOnly, iconsOnly, setIconsOnly)}
-              {flag(t.flDisclaimer, showDisclaimer, setShowDisclaimer)}
-            </div>
-            <p className="p2-resolved"><strong>{t.resolved}</strong> {resolvedPrompt}</p>
           </aside>
 
+          {/* Live preview stage */}
           <div className="p2-stage">
             <div className="p2-stage-bar">
               <span className="p2-dots" aria-hidden><i /><i /><i /></span>
@@ -455,7 +712,7 @@ export function App() {
         </div>
       </section>
 
-      {/* REAL FOOTER */}
+      {/* FOOTER DEMO */}
       <section className="p2-section" id="footer-demo">
         <p className="p2-eyebrow">{t.footerEyebrow}</p>
         <h2>{t.footerTitle}</h2>
@@ -485,63 +742,222 @@ export function App() {
       <section className="p2-section" id="setup">
         <p className="p2-eyebrow">{t.setupEyebrow}</p>
         <h2>{t.setupTitle}</h2>
-        <div className="p2-steps">
-          <div className="p2-step"><span>1</span><div><h4>{t.s1t}</h4><code>npm i ask-ai-badge</code></div></div>
-          <div className="p2-step"><span>2</span><div><h4>{t.s2t}</h4><p>{t.s2d}</p><code>import {"{AskAiBadge}"} from "ask-ai-badge";</code></div></div>
-          <div className="p2-step"><span>3</span><div><h4>{t.s3t}</h4><p>{t.s3d}</p><code>{`<AskAiBadge productName="${productName.trim() || "[Product]"}" />`}</code></div></div>
-        </div>
-        <div className="p2-grid2col">
-          <div className="p2-card">
-            <div className="p2-card-head"><h3>{t.codeTitle}</h3>
-              <button className="p2-btn p2-btn--sm" onClick={() => copy(code, "code")}>
-                {copiedId === "code" ? t.copied : t.copyBtn}
+        <div className="p2-steps-grid">
+          {/* STEP 1: Install */}
+          <div
+            className="p2-step-term"
+            onClick={() => copy(`${PKG_CONFIG[pkgMgr].cmd} ${PKG_CONFIG[pkgMgr].arg} ${PKG_CONFIG[pkgMgr].pkg}`, "step1")}
+            title={t.terminalClickToCopy}
+          >
+            <div className="p2-step-term-bar">
+              <div className="p2-step-dots" aria-hidden="true">
+                <span className="p2-tdot p2-tdot-close" />
+                <span className="p2-tdot p2-tdot-min" />
+                <span className="p2-tdot p2-tdot-max" />
+              </div>
+              <div className="p2-step-pill">
+                <span className="p2-step-num">01</span>
+                <span className="p2-step-name">{t.s1t}</span>
+              </div>
+              <button
+                type="button"
+                className={`p2-step-copy ${copiedId === "step1" ? "copied" : ""}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  copy(`${PKG_CONFIG[pkgMgr].cmd} ${PKG_CONFIG[pkgMgr].arg} ${PKG_CONFIG[pkgMgr].pkg}`, "step1");
+                }}
+                aria-label="Copy step 1"
+                title={t.terminalClickToCopy}
+              >
+                {copiedId === "step1" ? "✓" : "⧉"}
               </button>
             </div>
-            <pre className="p2-code">{code}</pre>
+            <div className="p2-step-term-body">
+              <div className="p2-terminal-line">
+                <span className="p2-t-prompt">$</span>
+                <span className="p2-t-cmd" style={{ color: PKG_CONFIG[pkgMgr].color }}>{PKG_CONFIG[pkgMgr].cmd}</span>
+                <span className="p2-t-arg">{PKG_CONFIG[pkgMgr].arg}</span>
+                <span className="p2-t-pkg">{PKG_CONFIG[pkgMgr].pkg}</span>
+              </div>
+              <p className="p2-step-desc">✦ {t.chip1} · ~8 KB gzip</p>
+            </div>
           </div>
+
+          {/* STEP 2: Import */}
+          <div
+            className="p2-step-term"
+            onClick={() => copy(`import { AskAiBadge } from "ask-ai-badge";\nimport "ask-ai-badge/style.css";`, "step2")}
+            title={t.terminalClickToCopy}
+          >
+            <div className="p2-step-term-bar">
+              <div className="p2-step-dots" aria-hidden="true">
+                <span className="p2-tdot p2-tdot-close" />
+                <span className="p2-tdot p2-tdot-min" />
+                <span className="p2-tdot p2-tdot-max" />
+              </div>
+              <div className="p2-step-pill">
+                <span className="p2-step-num">02</span>
+                <span className="p2-step-name">{t.s2t}</span>
+              </div>
+              <button
+                type="button"
+                className={`p2-step-copy ${copiedId === "step2" ? "copied" : ""}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  copy(`import { AskAiBadge } from "ask-ai-badge";\nimport "ask-ai-badge/style.css";`, "step2");
+                }}
+                aria-label="Copy step 2"
+                title={t.terminalClickToCopy}
+              >
+                {copiedId === "step2" ? "✓" : "⧉"}
+              </button>
+            </div>
+            <div className="p2-step-term-body">
+              <div className="p2-terminal-line">
+                <span className="p2-syntax-kw">import</span>
+                <span className="p2-syntax-brace">{" {"}</span>
+                <span className="p2-syntax-comp">AskAiBadge</span>
+                <span className="p2-syntax-brace">{"}"}</span>
+                <span className="p2-syntax-kw">from</span>
+                <span className="p2-syntax-str">"ask-ai-badge"</span>;
+              </div>
+              <div className="p2-terminal-line">
+                <span className="p2-syntax-kw">import</span>
+                <span className="p2-syntax-str">"ask-ai-badge/style.css"</span>;
+              </div>
+              <p className="p2-step-desc">✦ {t.s2d}</p>
+            </div>
+          </div>
+
+          {/* STEP 3: Drop it */}
+          <div
+            className="p2-step-term"
+            onClick={() => copy(`<AskAiBadge productName="${productName.trim() || "[Product]"}" />`, "step3")}
+            title={t.terminalClickToCopy}
+          >
+            <div className="p2-step-term-bar">
+              <div className="p2-step-dots" aria-hidden="true">
+                <span className="p2-tdot p2-tdot-close" />
+                <span className="p2-tdot p2-tdot-min" />
+                <span className="p2-tdot p2-tdot-max" />
+              </div>
+              <div className="p2-step-pill">
+                <span className="p2-step-num">03</span>
+                <span className="p2-step-name">{t.s3t}</span>
+              </div>
+              <button
+                type="button"
+                className={`p2-step-copy ${copiedId === "step3" ? "copied" : ""}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  copy(`<AskAiBadge productName="${productName.trim() || "[Product]"}" />`, "step3");
+                }}
+                aria-label="Copy step 3"
+                title={t.terminalClickToCopy}
+              >
+                {copiedId === "step3" ? "✓" : "⧉"}
+              </button>
+            </div>
+            <div className="p2-step-term-body">
+              <div className="p2-terminal-line">
+                <span className="p2-syntax-tag">&lt;</span>
+                <span className="p2-syntax-comp">AskAiBadge</span>
+              </div>
+              <div className="p2-terminal-line" style={{ paddingLeft: "1.2rem" }}>
+                <span className="p2-syntax-prop">productName</span>=
+                <span className="p2-syntax-str">"{productName.trim() || "[Product]"}"</span>
+              </div>
+              <div className="p2-terminal-line">
+                <span className="p2-syntax-tag">/&gt;</span>
+              </div>
+              <p className="p2-step-desc">✦ {t.s3d}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Code & Links — unified card with tabs */}
+        <div className="p2-grid2col">
           <div className="p2-card">
-            <h3>{t.linksTitle}</h3>
-            {links.length === 0 && <p className="p2-muted">{t.noProviders}</p>}
-            <ul className="p2-links">
-              {links.map((l) => (
-                <li key={l.id}>
-                  <strong>{l.label}
-                    {l.prefill === "copy" && <em> {t.copyNote}</em>}
-                    {l.prefill === "both" && <em> {t.bothNote}</em>}
-                  </strong>
-                  <code>{l.href}</code>
-                  <div className="p2-links-actions">
-                    {l.prefill === "copy" ? (
-                      <button
-                        onClick={() => {
-                          void copyTextToClipboard(resolvedPrompt).then(() => window.open(l.href, "_blank", "noopener"));
-                        }}
-                      >{t.tryCopyBtn}</button>
-                    ) : (
-                      <a
-                        href={l.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        onClick={l.prefill === "both" ? () => { void copyTextToClipboard(resolvedPrompt); } : undefined}
-                      >{t.tryBtn}</a>
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <div className="p2-output-tabs">
+              <button className={outputTab === "code" ? "on" : ""} onClick={() => setOutputTab("code")}>{t.outputCode}</button>
+              <button className={outputTab === "links" ? "on" : ""} onClick={() => setOutputTab("links")}>{t.outputLinks}</button>
+            </div>
+
+            {outputTab === "code" && (
+              <>
+                <div className="p2-card-head">
+                  <h3>{t.codeTitle}</h3>
+                  <button className="p2-btn p2-btn--sm" onClick={() => copy(code, "code")}>
+                    {copiedId === "code" ? t.copied : t.copyBtn}
+                  </button>
+                </div>
+                <pre className="p2-code">{code}</pre>
+              </>
+            )}
+
+            {outputTab === "links" && (
+              <>
+                <h3 style={{ marginBottom: "0.5rem" }}>{t.linksTitle}</h3>
+                {links.length === 0 && <p className="p2-muted">{t.noProviders}</p>}
+                <ul className="p2-links">
+                  {links.map((l) => (
+                    <li key={l.id}>
+                      <strong>{l.label}
+                        {l.prefill === "copy" && <em> {t.copyNote}</em>}
+                        {l.prefill === "both" && <em> {t.bothNote}</em>}
+                      </strong>
+                      <code>{l.href}</code>
+                      <div className="p2-links-actions">
+                        {l.prefill === "copy" ? (
+                          <button
+                            onClick={() => {
+                              void copyTextToClipboard(resolvedPrompt).then(() => window.open(l.href, "_blank", "noopener"));
+                            }}
+                          >{t.tryCopyBtn}</button>
+                        ) : (
+                          <a
+                            href={l.href}
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={l.prefill === "both" ? () => { void copyTextToClipboard(resolvedPrompt); } : undefined}
+                          >{t.tryBtn}</a>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
           </div>
         </div>
       </section>
 
       <footer className="p2-mini">
         <div className="p2-mini-links">
-          <a href="https://www.npmjs.com/package/ask-ai-badge" target="_blank" rel="noreferrer" className="p2-npm-link">
-            <svg height="20" viewBox="0 0 24 24" width="20" fill="currentColor" aria-hidden="true">
-              <path d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0H1.763zM12 22.237H1.763V1.763H12v20.474zm10.237 0H12V1.763h10.237v20.474z"/>
-            </svg>
-            npm
+          <a
+            href="https://www.npmjs.com/package/ask-ai-badge"
+            target="_blank"
+            rel="noreferrer"
+            className="p2-npm-link"
+            title="ask-ai-badge on npm"
+          >
+            <NpmLogo />
+            <span>ask-ai-badge</span>
           </a>
-          <span>✦ ask-ai-badge — {t.madeWith}</span>
+          <span className="p2-mini-sep">·</span>
+          <span className="p2-mini-creator">
+            {lang === "es" ? "Creado con ❤️ por" : "Crafted with ❤️ by"}{" "}
+            <a
+              href="https://elijs.dev/"
+              target="_blank"
+              rel="noreferrer"
+              className="p2-creator-link"
+            >
+              Eli (elijs.dev)
+            </a>
+          </span>
+          <span className="p2-mini-sep">·</span>
+          <span>MIT License</span>
         </div>
       </footer>
     </div>

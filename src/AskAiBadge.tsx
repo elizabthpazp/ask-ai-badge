@@ -107,11 +107,13 @@ export function AskAiBadge({
   theme = "auto",
   layout = "wrap",
   size = "md",
+  fontSize,
   align = "center",
   titleAlign,
   titleSize,
   labelSize,
   showLabels = false,
+  labelPosition = "bottom",
   showBorder = false,
   newTab = true,
   rel = "noopener noreferrer nofollow",
@@ -171,12 +173,14 @@ export function AskAiBadge({
   // Explicit sizes win over the `size` preset; `style` still wins over all.
   const rootStyle = useMemo(() => {
     const vars: Record<string, string> = {};
-    const t = toCssSize(titleSize);
-    const l = toCssSize(labelSize);
+    const f = toCssSize(fontSize);
+    const t = toCssSize(titleSize) ?? f;
+    const l = toCssSize(labelSize) ?? (f ? `calc(${f} * 0.8)` : undefined);
     if (t) vars["--aab-title-size"] = t;
     if (l) vars["--aab-label-size"] = l;
+    vars["--aab-icon-size"] = `${px}px`;
     return { ...vars, ...style } as CSSProperties;
-  }, [titleSize, labelSize, style]);
+  }, [fontSize, titleSize, labelSize, px, style]);
 
   return (
     <section
@@ -186,6 +190,7 @@ export function AskAiBadge({
         `aab--${layout}`,
         `aab--${size}`,
         `aab--align-${align}`,
+        labelPosition !== "bottom" ? `aab--label-${labelPosition}` : "",
         iconsOnly ? "aab--icons-only" : "",
         showBorder ? "aab--bordered" : "",
         className,

@@ -18,6 +18,7 @@
   --aab-gap: 0.5rem;
   --aab-title-size: 0.95rem;
   --aab-label-size: 0.72rem;
+  --aab-icon-size: 22px;
   --aab-icon-box: 44px;
 
   background: var(--aab-bg);
@@ -96,6 +97,18 @@
 .aab--align-right .aab__list { justify-content: flex-end; }
 .aab--align-end .aab__list { justify-content: end; }
 
+/* Optical alignment: pull the icon list so that the first icon glyph aligns flush
+   with the title text when start/left-aligned, and flush on the right when end/right-aligned */
+.aab--align-start:not(.aab--bordered) .aab__list,
+.aab--align-left:not(.aab--bordered) .aab__list {
+  margin-left: calc(-1 * (var(--aab-icon-box) - var(--aab-icon-size, 22px)) / 2);
+}
+
+.aab--align-end:not(.aab--bordered) .aab__list,
+.aab--align-right:not(.aab--bordered) .aab__list {
+  margin-right: calc(-1 * (var(--aab-icon-box) - var(--aab-icon-size, 22px)) / 2);
+}
+
 .aab--row .aab__list {
   flex-wrap: nowrap;
   overflow-x: auto;
@@ -108,9 +121,17 @@
    out of reach when content overflows. `safe` keeps it reachable. */
 .aab--row.aab--align-left .aab__list,
 .aab--row.aab--align-start .aab__list { justify-content: start; }
+.aab--row.aab--align-left:not(.aab--bordered) .aab__list,
+.aab--row.aab--align-start:not(.aab--bordered) .aab__list {
+  margin-left: calc(-1 * (var(--aab-icon-box) - var(--aab-icon-size, 22px)) / 2);
+}
 .aab--row.aab--align-center .aab__list { justify-content: safe center; }
 .aab--row.aab--align-right .aab__list,
 .aab--row.aab--align-end .aab__list { justify-content: safe end; }
+.aab--row.aab--align-right:not(.aab--bordered) .aab__list,
+.aab--row.aab--align-end:not(.aab--bordered) .aab__list {
+  margin-right: calc(-1 * (var(--aab-icon-box) - var(--aab-icon-size, 22px)) / 2);
+}
 .aab--grid .aab__list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(76px, 100%), 1fr));
@@ -142,6 +163,29 @@
   transform: translateY(-1px);
 }
 .aab--bordered .aab__link:hover { border-color: var(--aab-hover-border); }
+
+/* ---- label placement: side / horizontal (beside icon) ---- */
+.aab--label-side .aab__link,
+.aab--label-right .aab__link {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: auto;
+  padding: 0.42rem 0.72rem;
+}
+.aab--label-side .aab__label,
+.aab--label-right .aab__label {
+  max-width: none;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.aab--label-side.aab--align-start:not(.aab--bordered) .aab__list,
+.aab--label-side.aab--align-left:not(.aab--bordered) .aab__list,
+.aab--label-right.aab--align-start:not(.aab--bordered) .aab__list,
+.aab--label-right.aab--align-left:not(.aab--bordered) .aab__list {
+  margin-left: -0.72rem;
+}
 .aab__link:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 2px;
@@ -173,9 +217,9 @@
 .aab__link:hover .aab__label { color: inherit; }
 
 /* sizes */
-.aab--sm { --aab-icon-box: 38px; --aab-title-size: 0.85rem; --aab-label-size: 0.66rem; }
-.aab--md { --aab-icon-box: 44px; }
-.aab--lg { --aab-icon-box: 56px; --aab-title-size: 1.05rem; --aab-label-size: 0.78rem; }
+.aab--sm { --aab-icon-box: 38px; --aab-icon-size: 18px; --aab-title-size: 0.85rem; --aab-label-size: 0.66rem; }
+.aab--md { --aab-icon-box: 44px; --aab-icon-size: 22px; }
+.aab--lg { --aab-icon-box: 56px; --aab-icon-size: 26px; --aab-title-size: 1.05rem; --aab-label-size: 0.78rem; }
 
 /* disclaimer + copy-handoff hint */
 .aab__disclaimer,

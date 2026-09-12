@@ -52,6 +52,7 @@ export type AskAiTheme = "auto" | "light" | "dark";
 export type AskAiLayout = "row" | "wrap" | "grid" | "compact";
 export type AskAiSize = "sm" | "md" | "lg";
 export type AskAiAlign = "left" | "center" | "right" | "start" | "end";
+export type AskAiLabelPosition = "bottom" | "side" | "right";
 
 /** How the prompt reaches the AI. */
 export type AskAiPrefill =
@@ -138,9 +139,11 @@ export interface AskAiBadgeProps {
   layout?: AskAiLayout;
   /** Size preset. @default "md" */
   size?: AskAiSize;
-  /** Title font size (px number or any CSS value). Overrides the `size` preset. */
+  /** Custom base font size (px number or CSS value, e.g. 16 or "16px"). Overrides `size` preset for typography. */
+  fontSize?: number | string;
+  /** Title font size (px number or any CSS value). Overrides the `size` preset and `fontSize`. */
   titleSize?: number | string;
-  /** Provider label font size (px number or any CSS value). Overrides the `size` preset. */
+  /** Provider label font size (px number or any CSS value). Overrides the `size` preset and `fontSize`. */
   labelSize?: number | string;
   /** Text alignment. @default "center" */
   align?: AskAiAlign;
@@ -153,8 +156,13 @@ export interface AskAiBadgeProps {
    * Falls back to `align` when omitted.
    */
   titleAlign?: AskAiAlign;
-  /** Show text labels under icons. Opt-in. @default false */
+  /** Show text labels under or beside icons. Opt-in. @default false */
   showLabels?: boolean;
+  /**
+   * Position of the label relative to the icon: "bottom" (underneath) or "side" / "right" (beside / horizontal).
+   * @default "bottom"
+   */
+  labelPosition?: AskAiLabelPosition;
   /** Show bordered pills around icons. Opt-in. @default false */
   showBorder?: boolean;
   /** Open links in a new tab. @default true */

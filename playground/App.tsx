@@ -441,7 +441,8 @@ export function App() {
       <nav className="p2-nav">
         <div className="p2-brand-group">
           <a className="p2-brand" href="#top">
-            <span aria-hidden>✦</span> ask-ai-badge
+            <img src="/logo.svg" alt="ask-ai-badge logo" className="p2-brand-icon" width="28" height="28" />
+            <span>ask-ai-badge</span>
           </a>
           <a
             href="https://elijs.dev/"

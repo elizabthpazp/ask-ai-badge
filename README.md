@@ -1,13 +1,24 @@
-# ask-ai-badge
+<p align="center">
+  <img src="./assets/banner.svg" alt="ask-ai-badge banner" width="100%" style="max-width: 880px; border-radius: 16px;" />
+</p>
 
-**"Ask AI about your product" button for React.** Drop it anywhere on your site (footer, pricing, docs, blog) and get deep links to **ChatGPT, Claude, Gemini, Perplexity, and Grok** — each one opens the AI with a question about your product already written. Official monochrome icons, 100% customizable, multi-language, and ultra light.
+<p align="center">
+  <a href="https://www.npmjs.com/package/ask-ai-badge"><img src="https://img.shields.io/npm/v/ask-ai-badge.svg?style=flat-square&color=818cf8" alt="npm version" /></a>
+  <a href="https://www.npmjs.com/package/ask-ai-badge"><img src="https://img.shields.io/npm/dm/ask-ai-badge.svg?style=flat-square&color=38bdf8" alt="npm downloads" /></a>
+  <a href="https://github.com/elizabthpazp/ask-ai-badge/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/ask-ai-badge.svg?style=flat-square&color=c084fc" alt="license" /></a>
+  <a href="https://react.dev"><img src="https://img.shields.io/badge/react-%3E%3D18-61dafb.svg?style=flat-square" alt="react" /></a>
+  <a href="https://www.typescriptlang.org"><img src="https://img.shields.io/badge/types-TypeScript-3178c6.svg?style=flat-square" alt="typescript" /></a>
+  <a href="https://ask-ai-badge.elijs.dev"><img src="https://img.shields.io/badge/demo-live%20playground-10b981.svg?style=flat-square" alt="live demo" /></a>
+</p>
 
-[![npm version](https://img.shields.io/npm/v/ask-ai-badge.svg)](https://www.npmjs.com/package/ask-ai-badge)
-[![license](https://img.shields.io/npm/l/ask-ai-badge.svg)](https://www.npmjs.com/package/ask-ai-badge)
-[![react](https://img.shields.io/badge/react-%3E%3D18-blue.svg)](https://react.dev)
-[![typescript](https://img.shields.io/badge/types-TypeScript-blue.svg)](https://www.typescriptlang.org)
+<p align="center">
+  <strong>"Ask AI about your product" button for React.</strong><br />
+  Drop it anywhere on your site (footer, pricing, docs, blog) and get deep links to <strong>ChatGPT, Claude, Gemini, Perplexity, and Grok</strong> — each one opens the AI with a question about your product already written. Official monochrome icons, 100% customizable, multi-language, and ultra light.
+</p>
 
-**🚀 Try it live:** https://ask-ai-badge.elijs.dev
+<p align="center">
+  <strong>🚀 Try it live:</strong> <a href="https://ask-ai-badge.elijs.dev">https://ask-ai-badge.elijs.dev</a>
+</p>
 
 ```
 +--------------------------------------------------+

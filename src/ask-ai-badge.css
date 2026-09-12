@@ -1,4 +1,3 @@
-.aab,
 .aab__label,
 .aab__link {
   max-width: 100%
@@ -27,13 +26,13 @@
   color: var(--aab-fg);
   border-radius: var(--aab-radius);
   padding: 1rem 1.25rem;
+  width: fit-content;
+  max-width: 100%;
   min-width: 0;
   box-sizing: border-box;
   font-family: inherit;
   line-height: 1.4;
   overflow-wrap: break-word;
-  container-type: inline-size;
-  container-name: ask-ai-badge
 }
 
 .aab *,
@@ -215,7 +214,10 @@
 
 .aab--grid .aab__list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(76px, 100%), 1fr))
+  /* auto-fit can collapse to 1 column on very wide containers; use
+     max(2, auto-fit) semantics via a min column floor so the grid always
+     fills horizontally. min(76px,100%) keeps it responsive on tiny widths. */
+  grid-template-columns: repeat(auto-fill, minmax(min(76px, 100%), 1fr))
 }
 
 .aab--compact {
@@ -354,24 +356,12 @@
   }
 }
 
-@container ask-ai-badge (max-width:320px) {
+@media (max-width: 380px) {
   .aab {
     padding: .75rem .5rem;
     --aab-gap: 0.35rem;
     --aab-icon-box: 40px;
     --aab-link-pad-x: 0.5rem;
     --aab-link-pad-y: 0.35rem
-  }
-}
-
-@supports not (container-type:inline-size) {
-  @media (max-width:380px) {
-    .aab {
-      padding: .75rem .5rem;
-      --aab-gap: 0.35rem;
-      --aab-icon-box: 40px;
-      --aab-link-pad-x: 0.5rem;
-      --aab-link-pad-y: 0.35rem
-    }
   }
 }

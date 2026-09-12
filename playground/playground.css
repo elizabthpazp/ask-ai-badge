@@ -925,6 +925,8 @@ body:has(.p2--dark) {
   margin-top: 1.5rem;
   border-top: 1px dashed var(--border-strong);
   padding-top: 0.5rem;
+  display: flex;
+  justify-content: center;
 }
 
 /* ─── REAL FOOTER DEMO ─── */

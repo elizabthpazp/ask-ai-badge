@@ -1,6 +1,6 @@
 {
   "name": "ask-ai-badge",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Drop-in \"Ask AI about [your product]\" badge with monochrome ChatGPT, Claude, Gemini, Google, Perplexity & Grok links. Fully customizable, zero-dependency (React peer only).",
   "keywords": [
     "react",
@@ -25,10 +25,14 @@
     "i18n"
   ],
   "license": "MIT",
-  "author": "",
+  "author": "elijs.dev",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git+https://github.com/elizabthpazp/ask-ai-badge.git"
+  },
+  "homepage": "https://github.com/elizabthpazp/ask-ai-badge#readme",
+  "bugs": {
+    "url": "https://github.com/elizabthpazp/ask-ai-badge/issues"
   },
   "type": "module",
   "main": "./dist/ask-ai-badge.cjs",

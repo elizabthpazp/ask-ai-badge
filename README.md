@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./assets/banner.svg" alt="ask-ai-badge banner" width="100%" style="max-width: 880px; border-radius: 16px;" />
+  <img src="https://raw.githubusercontent.com/elizabthpazp/ask-ai-badge/main/assets/banner.svg" alt="ask-ai-badge banner" width="100%" style="max-width: 880px; border-radius: 16px;" />
 </p>
 
 <p align="center">

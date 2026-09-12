@@ -7,6 +7,8 @@
 [![react](https://img.shields.io/badge/react-%3E%3D18-blue.svg)](https://react.dev)
 [![typescript](https://img.shields.io/badge/types-TypeScript-blue.svg)](https://www.typescriptlang.org)
 
+**🚀 Try it live:** https://ask-ai-badge.elijs.dev
+
 ```
 +--------------------------------------------------+
 |            Ask AI about [Product]                |

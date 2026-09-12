@@ -538,6 +538,16 @@ export function App() {
               </button>
             ))}
           </div>
+          <a
+            href="https://www.buymeacoffee.com/elizabethpH"
+            target="_blank"
+            rel="noreferrer"
+            className="p2-bmc-nav"
+            title="Buy me a coffee ☕"
+            aria-label="Buy me a coffee"
+          >
+            ☕ <span className="p2-bmc-nav-label">{lang === "es" ? "Donar" : "Donate"}</span>
+          </a>
           <button className="p2-iconbtn" onClick={() => setDark((d) => !d)} aria-label="theme">
             {dark ? "☀" : "☾"}
           </button>
@@ -652,9 +662,18 @@ export function App() {
           <a href="#setup" className="p2-btn p2-btn--ghost">{t.ctaSetup} →</a>
         </div>
         <div className="p2-chips">
-          <span>{t.chip1}</span>
-          <span>{t.chip2}</span>
-          <span>{t.chip3}</span>
+          <span className="p2-chip p2-chip--green">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12" /></svg>
+            {t.chip1}
+          </span>
+          <span className="p2-chip p2-chip--purple">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" /></svg>
+            {t.chip2}
+          </span>
+          <span className="p2-chip p2-chip--blue">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
+            {t.chip3}
+          </span>
           <a
             href="https://elijs.dev/"
             target="_blank"
@@ -1124,6 +1143,16 @@ export function App() {
           </span>
           <span className="p2-mini-sep">·</span>
           <span>MIT License</span>
+          <span className="p2-mini-sep">·</span>
+          <a
+            href="https://www.buymeacoffee.com/elizabethpH"
+            target="_blank"
+            rel="noreferrer"
+            className="p2-bmc-footer"
+            title="Buy me a coffee ☕"
+          >
+            ☕ {lang === "es" ? "Invítame un café" : "Buy me a coffee"}
+          </a>
         </div>
       </footer>
     </div>

@@ -1544,3 +1544,255 @@ body:has(.p2--dark) {
 .p2-showcase[data-stage="480"] {
   padding: 2rem 0.75rem;
 }
+
+/* ====================================================== */
+/* HERO VISUAL IMPROVEMENTS */
+/* ====================================================== */
+
+/* Hero relative positioning for orbs */
+.p2-hero {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient background orbs */
+.p2-hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(70px);
+  animation: p2-orb-pulse 6s ease-in-out infinite alternate;
+}
+.p2-hero-orb--1 {
+  width: 420px;
+  height: 420px;
+  top: -80px;
+  left: -100px;
+  background: radial-gradient(circle, rgba(108, 92, 231, 0.18) 0%, transparent 70%);
+  animation-delay: 0s;
+}
+.p2-hero-orb--2 {
+  width: 350px;
+  height: 350px;
+  top: -60px;
+  right: -80px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.14) 0%, transparent 70%);
+  animation-delay: -3s;
+}
+@keyframes p2-orb-pulse {
+  0% { transform: scale(1) translateY(0); opacity: 0.6; }
+  100% { transform: scale(1.12) translateY(-20px); opacity: 1; }
+}
+
+/* Make hero children sit above orbs */
+.p2-hero > *:not(.p2-hero-orb) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Eyebrow wrapper with icon */
+.p2-eyebrow-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 1.75rem;
+}
+.p2-eyebrow-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  animation: p2-star-spin 4s ease-in-out infinite alternate;
+}
+@keyframes p2-star-spin {
+  0% { transform: rotate(-8deg) scale(0.9); }
+  100% { transform: rotate(8deg) scale(1.15); }
+}
+/* Eyebrow pill — reset margin since it's now inside a flex wrapper */
+.p2-eyebrow-wrap .p2-eyebrow {
+  margin: 0;
+}
+
+/* Hero icon (logo above h1) */
+.p2-hero-title-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+.p2-hero-icon-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+}
+.p2-hero-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  box-shadow:
+    0 4px 24px rgba(108, 92, 231, 0.4),
+    0 1px 4px rgba(0,0,0,0.2);
+  position: relative;
+  z-index: 1;
+  animation: p2-icon-float 3.5s ease-in-out infinite alternate;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.p2-hero-icon:hover {
+  transform: scale(1.08) rotate(4deg);
+  box-shadow: 0 8px 32px rgba(108, 92, 231, 0.55), 0 2px 8px rgba(0,0,0,0.2);
+}
+.p2-hero-icon-glow {
+  position: absolute;
+  inset: -8px;
+  border-radius: 28px;
+  background: radial-gradient(circle, rgba(108, 92, 231, 0.35) 0%, rgba(56, 189, 248, 0.2) 50%, transparent 70%);
+  filter: blur(12px);
+  z-index: 0;
+  animation: p2-glow-pulse 3.5s ease-in-out infinite alternate;
+}
+@keyframes p2-icon-float {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-6px); }
+}
+@keyframes p2-glow-pulse {
+  0% { opacity: 0.7; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1.08); }
+}
+
+/* Bigger, bolder h1 */
+.p2-hero h1 {
+  font-size: clamp(2.8rem, 7vw, 4.8rem) !important;
+  line-height: 1.04 !important;
+  letter-spacing: -0.05em !important;
+}
+.p2-h1-normal {
+  color: var(--fg);
+}
+.p2-h1-grad {
+  font-size: 1.08em;
+  display: inline-block;
+}
+
+/* Hero subtitle — slightly bigger + keyword highlights */
+.p2-sub--hero {
+  font-size: clamp(1rem, 2vw, 1.18rem) !important;
+  max-width: 560px !important;
+  color: var(--fg-secondary);
+}
+
+/* Colorful chips */
+.p2-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid transparent;
+  transition: all 0.25s ease;
+}
+.p2-chip:hover {
+  transform: translateY(-1px);
+}
+.p2-chip--green {
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+.p2-chip--green:hover {
+  background: rgba(34, 197, 94, 0.18);
+  box-shadow: 0 3px 12px rgba(34, 197, 94, 0.25);
+}
+.p2-chip--purple {
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.p2-chip--purple:hover {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  box-shadow: 0 3px 12px rgba(108, 92, 231, 0.25);
+}
+.p2-chip--blue {
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  border-color: rgba(56, 189, 248, 0.3);
+}
+.p2-chip--blue:hover {
+  background: rgba(56, 189, 248, 0.18);
+  box-shadow: 0 3px 12px rgba(56, 189, 248, 0.25);
+}
+
+/* Dark-mode chip adjustments */
+.p2--dark .p2-chip--green {
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.1);
+  border-color: rgba(74, 222, 128, 0.25);
+}
+.p2--dark .p2-chip--blue {
+  color: #7dd3fc;
+  background: rgba(125, 211, 252, 0.1);
+  border-color: rgba(125, 211, 252, 0.25);
+}
+
+/* Responsive */
+@media (max-width: 560px) {
+  .p2-hero-icon { width: 56px; height: 56px; border-radius: 15px; }
+  .p2-hero-icon-wrap { width: 64px; height: 64px; }
+}
+
+/* ─── BUY ME A COFFEE ─── */
+.p2-bmc-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 13px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  background: linear-gradient(135deg, #BD5FFF 0%, #9333ea 100%);
+  color: #fff;
+  border: 1px solid rgba(189, 95, 255, 0.4);
+  transition: opacity 0.18s, transform 0.18s, box-shadow 0.18s;
+  white-space: nowrap;
+  box-shadow: 0 2px 10px rgba(189, 95, 255, 0.3);
+}
+.p2-bmc-nav:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 18px rgba(189, 95, 255, 0.45);
+}
+.p2-bmc-nav-label {
+  font-size: 0.78rem;
+}
+@media (max-width: 680px) {
+  .p2-bmc-nav-label { display: none; }
+}
+
+.p2-bmc-footer {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #BD5FFF;
+  text-decoration: none;
+  transition: color 0.18s, opacity 0.18s;
+  opacity: 0.85;
+}
+.p2-bmc-footer:hover {
+  color: #a855f7;
+  opacity: 1;
+}
+.p2--dark .p2-bmc-footer {
+  color: #c084fc;
+}
+.p2--dark .p2-bmc-footer:hover {
+  color: #e879f9;
+}
+

@@ -158,11 +158,7 @@ export const SUPPORTED_LOCALES = ["en", "es", "fr", "de", "pt", "it"] as const;
 
 type LocaleDict = Required<AskAiMessages>;
 
-const EN_PROMPT = `**{productName}** is a [product category / type] designed to help [target audience] [main goal or outcome].
-
-It lets users [key action / capability], [key action / capability], and [key action / capability].
-
-With **{productName}**, users can [main benefit], making it easier to [specific problem it solves / outcome it enables].{productUrlLine}`;
+const EN_PROMPT = `What is **{productName}**? Please explain what it is, who it is for, and what its main features are.{productUrlLine}`;
 
 export const LOCALE_MESSAGES: Record<string, LocaleDict> = {
   en: {
@@ -180,11 +176,7 @@ export const LOCALE_MESSAGES: Record<string, LocaleDict> = {
     subtitle: "",
     disclaimer:
       "Las respuestas de la IA pueden variar. Verifica los datos importantes.",
-    promptTemplate: `**{productName}** es un(a) [categoría / tipo de producto] diseñado(a) para ayudar a [audiencia objetivo] a [objetivo o resultado principal].
-
-Permite a los usuarios [acción / capacidad clave], [acción / capacidad clave] y [acción / capacidad clave].
-
-Con **{productName}**, los usuarios pueden [beneficio principal], lo que facilita [problema que resuelve / resultado que permite].{productUrlLine}`,
+    promptTemplate: `¿Qué es **{productName}**? Explica qué es, para quién está diseñado y cuáles son sus características principales.{productUrlLine}`,
     summarizeTemplate:
       "Resume los puntos clave del sitio web oficial de **{productName}**:\n{productUrl}",
     askTemplate: "Pregunta a {provider} sobre {productName}",
@@ -195,11 +187,7 @@ Con **{productName}**, los usuarios pueden [beneficio principal], lo que facilit
     subtitle: "",
     disclaimer:
       "Les réponses de l'IA peuvent varier. Vérifiez les informations importantes.",
-    promptTemplate: `**{productName}** est un(e) [catégorie / type de produit] conçu(e) pour aider [public cible] à [objectif ou résultat principal].
-
-Il permet aux utilisateurs de [action / capacité clé], [action / capacité clé] et [action / capacité clé].
-
-Avec **{productName}**, les utilisateurs peuvent [bénéfice principal], ce qui facilite [problème résolu / résultat obtenu].{productUrlLine}`,
+    promptTemplate: `Parlez-moi de **{productName}**. Qu'est-ce que c'est, à qui cela s'adresse-t-il et quelles sont ses principales caractéristiques ?{productUrlLine}`,
     summarizeTemplate:
       "Résumez les points clés du site officiel de **{productName}** :\n{productUrl}",
     askTemplate: "Interrogez {provider} sur {productName}",
@@ -210,11 +198,7 @@ Avec **{productName}**, les utilisateurs peuvent [bénéfice principal], ce qui 
     subtitle: "",
     disclaimer:
       "KI-Antworten können variieren. Bitte prüfe wichtige Fakten.",
-    promptTemplate: `**{productName}** ist ein(e) [Produktkategorie / Produkttyp], die/das [Zielgruppe] dabei hilft, [Hauptziel oder Ergebnis] zu erreichen.
-
-Nutzer können damit [zentrale Aktion / Funktion], [zentrale Aktion / Funktion] und [zentrale Aktion / Funktion].
-
-Mit **{productName}** können Nutzer [Hauptnutzen], was es einfacher macht, [gelöstes Problem / ermöglichtes Ergebnis].{productUrlLine}`,
+    promptTemplate: `Erzähle mir von **{productName}**. Was ist es, für wen ist es gedacht und was sind die wichtigsten Funktionen?{productUrlLine}`,
     summarizeTemplate:
       "Fasse die wichtigsten Highlights der offiziellen Website von **{productName}** zusammen:\n{productUrl}",
     askTemplate: "Frag {provider} über {productName}",
@@ -225,11 +209,7 @@ Mit **{productName}** können Nutzer [Hauptnutzen], was es einfacher macht, [gel
     subtitle: "",
     disclaimer:
       "As respostas da IA podem variar. Verifique informações importantes.",
-    promptTemplate: `**{productName}** é um(a) [categoria / tipo de produto] criado(a) para ajudar [público-alvo] a [objetivo ou resultado principal].
-
-Permite aos usuários [ação / recurso principal], [ação / recurso principal] e [ação / recurso principal].
-
-Com **{productName}**, os usuários podem [benefício principal], facilitando [problema resolvido / resultado alcançado].{productUrlLine}`,
+    promptTemplate: `Fale-me sobre **{productName}**. O que é, para quem é e quais são as suas principais características?{productUrlLine}`,
     summarizeTemplate:
       "Resuma os principais destaques do site oficial de **{productName}**:\n{productUrl}",
     askTemplate: "Pergunte a {provider} sobre {productName}",
@@ -240,11 +220,7 @@ Com **{productName}**, os usuários podem [benefício principal], facilitando [p
     subtitle: "",
     disclaimer:
       "Le risposte dell'IA possono variare. Verifica i fatti importanti.",
-    promptTemplate: `**{productName}** è un(a) [categoria / tipo di prodotto] progettato(a) per aiutare [pubblico di destinazione] a [obiettivo o risultato principale].
-
-Permette agli utenti di [azione / funzionalità chiave], [azione / funzionalità chiave] e [azione / funzionalità chiave].
-
-Con **{productName}**, gli utenti possono [beneficio principale], rendendo più facile [problema risolto / risultato ottenuto].{productUrlLine}`,
+    promptTemplate: `Parlami di **{productName}**. Cos'è, per chi è pensato e quali sono le sue caratteristiche principali?{productUrlLine}`,
     summarizeTemplate:
       "Riassumi i punti salienti del sito ufficiale di **{productName}**:\n{productUrl}",
     askTemplate: "Chiedi a {provider} di {productName}",

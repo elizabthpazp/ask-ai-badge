@@ -18,7 +18,7 @@ import type {
 
 type Lang = "en" | "es";
 type CtrlTab = "product" | "style" | "providers";
-type OutputTab = "code" | "wc" | "links";
+type OutputTab = "code" | "wc" | "links" | "agent";
 type PkgManager = "npm" | "pnpm" | "bun" | "yarn";
 
 const PKG_CONFIG: Record<
@@ -96,6 +96,7 @@ const STR = {
     heroSub: "One badge for your footer. It opens ChatGPT, Claude, Gemini, Perplexity and Grok with a question about you — already written.",
     ctaTry: "Try it live",
     ctaSetup: "Setup guide",
+    ctaAgent: "🤖 Copy AI prompt",
     ctaInstall: "npm i ask-ai-badge",
     copied: "Copied",
     terminalCopy: "Copy",
@@ -178,6 +179,9 @@ const STR = {
     outputCode: "React",
     outputWc: "Web Component (Universal)",
     outputLinks: "Links",
+    outputAgent: "🤖 AI Agent",
+    agentTitle: "Prompt for your AI agent",
+    agentDesc: "Copy-paste this into Cursor, Copilot, v0, Lovable or any coding agent. It installs the official component — no custom rebuilds.",
     wcTitle: "HTML / Universal Web Component (Nuxt, Vue, Angular, Svelte, HTML)",
   },
   es: {
@@ -190,6 +194,7 @@ const STR = {
     heroSub: "Un badge para tu footer. Abre ChatGPT, Claude, Gemini, Perplexity y Grok con una pregunta sobre ti — ya escrita.",
     ctaTry: "Pruébalo en vivo",
     ctaSetup: "Ver instalación",
+    ctaAgent: "🤖 Copiar prompt IA",
     ctaInstall: "npm i ask-ai-badge",
     copied: "Copiado",
     terminalCopy: "Copiar",
@@ -272,6 +277,9 @@ const STR = {
     outputCode: "React",
     outputWc: "Web Component (Universal)",
     outputLinks: "Enlaces",
+    outputAgent: "🤖 Agente IA",
+    agentTitle: "Prompt para tu agente de IA",
+    agentDesc: "Copia y pega esto en Cursor, Copilot, v0, Lovable o cualquier agente. Instala el componente oficial — sin reconstruirlo a mano.",
     wcTitle: "HTML / Web Component Universal (Nuxt, Vue, Angular, Svelte, HTML)",
   },
 } satisfies Record<Lang, Record<string, string>>;
@@ -284,6 +292,11 @@ const FOOT_LINKS: Record<string, string[]> = {
   colResources: ["Docs", "API", "Status", "Community"],
   colLegal: ["Privacy", "Terms", "Security", "Cookies"],
 };
+
+const AGENT_PROMPT = `Use the Ask AI Badge library in this project:
+https://ask-ai-badge.elijs.dev/
+
+Check the docs, install it, and integrate the official component into the UI. Don't build a custom alternative. Place it near the footer, in the footer, or wherever it fits best with the existing UI.`;
 
 export function App() {
   const [lang, setLang] = useState<Lang>("en");
@@ -543,10 +556,10 @@ export function App() {
             target="_blank"
             rel="noreferrer"
             className="p2-bmc-nav"
-            title="Buy me a coffee ☕"
-            aria-label="Buy me a coffee"
+            title={lang === "es" ? "Invítame una pizza 🍕" : "Buy me a pizza 🍕"}
+            aria-label={lang === "es" ? "Invítame una pizza" : "Buy me a pizza"}
           >
-            ☕ <span className="p2-bmc-nav-label">{lang === "es" ? "Donar" : "Donate"}</span>
+            <span className="p2-bmc-icon" aria-hidden="true">🍕</span> <span className="p2-bmc-nav-label">{lang === "es" ? "Invítame una pizza" : "Buy me a pizza"}</span>
           </a>
           <button className="p2-iconbtn" onClick={() => setDark((d) => !d)} aria-label="theme">
             {dark ? "☀" : "☾"}
@@ -660,6 +673,14 @@ export function App() {
         <div className="p2-cta">
           <a href="#try" className="p2-btn">{t.ctaTry} ↓</a>
           <a href="#setup" className="p2-btn p2-btn--ghost">{t.ctaSetup} →</a>
+          <button
+            type="button"
+            className={`p2-btn p2-btn--agent${copiedId === "hero-agent" ? " copied" : ""}`}
+            onClick={() => copy(AGENT_PROMPT, "hero-agent")}
+            title={t.agentDesc}
+          >
+            {copiedId === "hero-agent" ? `✓ ${t.copied}` : t.ctaAgent}
+          </button>
         </div>
         <div className="p2-chips">
           <span className="p2-chip p2-chip--green">
@@ -1043,6 +1064,7 @@ export function App() {
               <button className={outputTab === "code" ? "on" : ""} onClick={() => setOutputTab("code")}>{t.outputCode}</button>
               <button className={outputTab === "wc" ? "on" : ""} onClick={() => setOutputTab("wc")}>{t.outputWc}</button>
               <button className={outputTab === "links" ? "on" : ""} onClick={() => setOutputTab("links")}>{t.outputLinks}</button>
+              <button className={outputTab === "agent" ? "on" : ""} onClick={() => setOutputTab("agent")}>{t.outputAgent}</button>
             </div>
 
             {outputTab === "code" && (
@@ -1102,6 +1124,24 @@ export function App() {
                 </ul>
               </>
             )}
+
+            {outputTab === "agent" && (
+              <>
+                <div className="p2-card-head">
+                  <h3>{t.agentTitle}</h3>
+                  <button className="p2-btn p2-btn--sm" onClick={() => copy(AGENT_PROMPT, "agent")}>
+                    {copiedId === "agent" ? t.copied : t.copyBtn}
+                  </button>
+                </div>
+                <p className="p2-muted" style={{ margin: "0 0 0.6rem" }}>{t.agentDesc}</p>
+                <pre
+                  className="p2-code p2-code--wrap"
+                  onClick={() => copy(AGENT_PROMPT, "agent")}
+                  title={t.terminalClickToCopy}
+                  style={{ cursor: "pointer" }}
+                >{AGENT_PROMPT}</pre>
+              </>
+            )}
           </div>
         </div>
       </section>
@@ -1149,9 +1189,9 @@ export function App() {
             target="_blank"
             rel="noreferrer"
             className="p2-bmc-footer"
-            title="Buy me a coffee ☕"
+            title={lang === "es" ? "Invítame una pizza 🍕" : "Buy me a pizza 🍕"}
           >
-            ☕ {lang === "es" ? "Invítame un café" : "Buy me a coffee"}
+            <span className="p2-bmc-icon" aria-hidden="true">🍕</span> {lang === "es" ? "Invítame una pizza" : "Buy me a pizza"}
           </a>
         </div>
       </footer>

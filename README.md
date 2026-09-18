@@ -55,6 +55,19 @@ npm run playground   # opens http://localhost:5199/
 
 The playground lets you edit copy, prompt, providers, language, sizes, and alignment, preview the example site (light/dark, full/tablet/mobile widths), copy the generated links, and copy the resulting React code.
 
+## 🤖 Prompt for your AI agent (copy-paste)
+
+Paste this into Cursor, GitHub Copilot, v0, Lovable, or any coding agent so it integrates the **official** component instead of rebuilding one:
+
+```text
+Use the Ask AI Badge library in this project:
+https://ask-ai-badge.elijs.dev/
+
+Check the docs, install it, and integrate the official component into the UI. Don't build a custom alternative. Place it near the footer, in the footer, or wherever it fits best with the existing UI.
+```
+
+> Also available with one click in the live playground → **Setup → 🤖 AI Agent** tab.
+
 ## 30-second usage
 
 ### In React / Next.js

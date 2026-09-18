@@ -352,6 +352,22 @@ body:has(.p2--dark) {
   border-color: var(--accent);
   box-shadow: 0 4px 12px rgba(108, 92, 231, 0.15);
 }
+/* Hero: copy-the-agent-prompt button — dark terminal look, works in light + dark */
+.p2-btn--agent {
+  background: #0d1117;
+  color: #e6edf3;
+  border: 1px solid rgba(162, 155, 254, 0.45);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.p2-btn--agent:hover {
+  color: #ffffff;
+  border-color: rgba(162, 155, 254, 0.85);
+  box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+.p2-btn--agent.copied {
+  color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.6);
+}
 .p2-btn--sm {
   padding: 0.3rem 0.65rem;
   font-size: 0.75rem;
@@ -1283,6 +1299,22 @@ body:has(.p2--dark) {
   line-height: 1.6;
 }
 
+/* Wrapped variant — for the AI-agent prompt (copy-paste block) */
+.p2-code--wrap {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 0.8rem;
+  line-height: 1.65;
+  border: 1px solid rgba(162, 155, 254, 0.25);
+}
+
+@media (max-width: 560px) {
+  .p2-output-tabs button {
+    font-size: 0.68rem;
+    padding: 0.5rem 0.4rem;
+  }
+}
+
 /* Links list */
 .p2-links {
   list-style: none;
@@ -1745,54 +1777,81 @@ body:has(.p2--dark) {
   .p2-hero-icon-wrap { width: 64px; height: 64px; }
 }
 
-/* ─── BUY ME A COFFEE ─── */
-.p2-bmc-nav {
+/* ─── BUY ME A PIZZA ─── */
+/* Nota: selector con alta especificidad para que .p2-nav-right a no tape el color */
+.p2-nav-right a.p2-bmc-nav {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 5px 13px;
+  gap: 6px;
+  padding: 6px 14px;
   border-radius: 999px;
   font-size: 0.78rem;
-  font-weight: 600;
+  font-weight: 800;
+  letter-spacing: -0.01em;
   text-decoration: none;
-  background: linear-gradient(135deg, #BD5FFF 0%, #9333ea 100%);
-  color: #fff;
-  border: 1px solid rgba(189, 95, 255, 0.4);
-  transition: opacity 0.18s, transform 0.18s, box-shadow 0.18s;
   white-space: nowrap;
-  box-shadow: 0 2px 10px rgba(189, 95, 255, 0.3);
+  color: #201503 !important;
+  background: linear-gradient(135deg, #ffdd00 0%, #ffb800 100%);
+  border: 1px solid rgba(146, 90, 0, 0.35);
+  box-shadow: 0 2px 10px rgba(255, 184, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  text-shadow: none;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
 }
-.p2-bmc-nav:hover {
-  opacity: 0.9;
+.p2-nav-right a.p2-bmc-nav:hover {
+  color: #201503 !important;
+  background: linear-gradient(135deg, #ffe433 0%, #ffc400 100%);
   transform: translateY(-1px);
-  box-shadow: 0 4px 18px rgba(189, 95, 255, 0.45);
+  box-shadow: 0 5px 18px rgba(255, 184, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.p2-nav-right a.p2-bmc-nav:active {
+  transform: translateY(0) scale(0.98);
+}
+.p2-bmc-icon {
+  font-size: 0.95rem;
+  line-height: 1;
+  display: inline-block;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.2));
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.p2-bmc-nav:hover .p2-bmc-icon,
+.p2-bmc-footer:hover .p2-bmc-icon {
+  transform: rotate(-12deg) scale(1.2);
 }
 .p2-bmc-nav-label {
   font-size: 0.78rem;
+  color: inherit;
 }
 @media (max-width: 680px) {
   .p2-bmc-nav-label { display: none; }
+  .p2-nav-right a.p2-bmc-nav { padding: 6px 10px; }
 }
 
 .p2-bmc-footer {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #BD5FFF;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #201503 !important;
+  background: linear-gradient(135deg, #ffdd00 0%, #ffb800 100%);
+  border: 1px solid rgba(146, 90, 0, 0.35);
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
   text-decoration: none;
-  transition: color 0.18s, opacity 0.18s;
-  opacity: 0.85;
+  text-shadow: none;
+  box-shadow: 0 2px 10px rgba(255, 184, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
 }
 .p2-bmc-footer:hover {
-  color: #a855f7;
-  opacity: 1;
+  color: #201503 !important;
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(255, 184, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 .p2--dark .p2-bmc-footer {
-  color: #c084fc;
+  color: #201503 !important;
 }
 .p2--dark .p2-bmc-footer:hover {
-  color: #e879f9;
+  color: #201503 !important;
 }
 
